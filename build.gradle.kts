@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.7.20"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.7.20"
     application
 }
 
@@ -40,10 +41,6 @@ kotlin {
         val exposedVersion: String by project
         val h2Version: String by project
         val jvmMain by getting {
-            plugins {
-                id("org.jetbrains.kotlin.plugin.jpa") version "1.7.20"
-            }
-
             dependencies {
                 implementation("io.ktor:ktor-server-netty:2.0.2")
                 implementation("io.ktor:ktor-server-html-builder-jvm:2.0.2")
