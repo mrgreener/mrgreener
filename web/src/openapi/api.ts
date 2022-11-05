@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * MrGreener
- * MrGreener
+ * Loyalty program for green initiatives
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,6 +20,576 @@ import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'ax
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+
+/**
+ * 
+ * @export
+ * @interface Profile
+ */
+export interface Profile {
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'registered_on': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'avatar_url'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Profile
+     */
+    'points': number;
+}
+/**
+ * 
+ * @export
+ * @interface Promotion
+ */
+export interface Promotion {
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Promotion
+     */
+    'promotion_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'price_string': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'picture_url'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'description_short': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'description_long': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Promotion
+     */
+    'reward_points': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'company_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'company_avatar_url'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'link_to_store': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Promotion
+     */
+    'where_to_get'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Promotion
+     */
+    'verified': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Promotion
+     */
+    'is_active': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface Reward
+ */
+export interface Reward {
+    /**
+     * 
+     * @type {string}
+     * @memberof Reward
+     */
+    'name': string;
+    /**
+     * Internal reward identifier
+     * @type {number}
+     * @memberof Reward
+     */
+    'reward_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reward
+     */
+    'picture_url'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reward
+     */
+    'description_short': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reward
+     */
+    'description_long': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Reward
+     */
+    'price_points': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reward
+     */
+    'company_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reward
+     */
+    'company_avatar_url'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Reward
+     */
+    'verified': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Reward
+     */
+    'is_active': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface RewardVoucher
+ */
+export interface RewardVoucher {
+    /**
+     * 
+     * @type {string}
+     * @memberof RewardVoucher
+     */
+    'content': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RewardVoucher
+     */
+    'issuedOn': string;
+}
+
+/**
+ * CustomerAPIApi - axios parameter creator
+ * @export
+ */
+export const CustomerAPIApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Attempts to buy a voucher
+         * @param {number} rewardId Internal reward id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        buyRewardRewardIdPost: async (rewardId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'rewardId' is not null or undefined
+            assertParamExists('buyRewardRewardIdPost', 'rewardId', rewardId)
+            const localVarPath = `/buyReward/{reward_id}`
+                .replace(`{${"reward_id"}}`, encodeURIComponent(String(rewardId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Gets my profile
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMeGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/getMe`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Check user
+         * @param {string} username The username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesUsernameGetGet: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('profilesUsernameGetGet', 'username', username)
+            const localVarPath = `/profiles/{username}/get`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Gets all active&verified promotions
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promotionsAllGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/promotions/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Lists all active&verified rewards
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rewardsAllGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rewards/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CustomerAPIApi - functional programming interface
+ * @export
+ */
+export const CustomerAPIApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CustomerAPIApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Attempts to buy a voucher
+         * @param {number} rewardId Internal reward id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async buyRewardRewardIdPost(rewardId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RewardVoucher>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.buyRewardRewardIdPost(rewardId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Gets my profile
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMeGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMeGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Check user
+         * @param {string} username The username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async profilesUsernameGetGet(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.profilesUsernameGetGet(username, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Gets all active&verified promotions
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async promotionsAllGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Promotion>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promotionsAllGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Lists all active&verified rewards
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async rewardsAllGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Reward>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rewardsAllGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * CustomerAPIApi - factory interface
+ * @export
+ */
+export const CustomerAPIApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CustomerAPIApiFp(configuration)
+    return {
+        /**
+         * Attempts to buy a voucher
+         * @param {number} rewardId Internal reward id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        buyRewardRewardIdPost(rewardId: number, options?: any): AxiosPromise<RewardVoucher> {
+            return localVarFp.buyRewardRewardIdPost(rewardId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Gets my profile
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMeGet(options?: any): AxiosPromise<Profile> {
+            return localVarFp.getMeGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Check user
+         * @param {string} username The username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesUsernameGetGet(username: string, options?: any): AxiosPromise<Profile> {
+            return localVarFp.profilesUsernameGetGet(username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Gets all active&verified promotions
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promotionsAllGet(options?: any): AxiosPromise<Array<Promotion>> {
+            return localVarFp.promotionsAllGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Lists all active&verified rewards
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rewardsAllGet(options?: any): AxiosPromise<Array<Reward>> {
+            return localVarFp.rewardsAllGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CustomerAPIApi - object-oriented interface
+ * @export
+ * @class CustomerAPIApi
+ * @extends {BaseAPI}
+ */
+export class CustomerAPIApi extends BaseAPI {
+    /**
+     * Attempts to buy a voucher
+     * @param {number} rewardId Internal reward id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerAPIApi
+     */
+    public buyRewardRewardIdPost(rewardId: number, options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).buyRewardRewardIdPost(rewardId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Gets my profile
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerAPIApi
+     */
+    public getMeGet(options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).getMeGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Check user
+     * @param {string} username The username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerAPIApi
+     */
+    public profilesUsernameGetGet(username: string, options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).profilesUsernameGetGet(username, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Gets all active&verified promotions
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerAPIApi
+     */
+    public promotionsAllGet(options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).promotionsAllGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Lists all active&verified rewards
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerAPIApi
+     */
+    public rewardsAllGet(options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).rewardsAllGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
 
 
 /**
@@ -116,6 +686,282 @@ export class DefaultApi extends BaseAPI {
      */
     public healthGet(options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).healthGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * OrgAPIApi - axios parameter creator
+ * @export
+ */
+export const OrgAPIApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Adds new promotion
+         * @param {Promotion} [promotion] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promotionsAddPost: async (promotion?: Promotion, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/promotions/add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(promotion, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Gets all my promotions
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promotionsMyGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/promotions/my`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Adds new reward
+         * @param {Reward} [reward] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rewardsAddPost: async (reward?: Reward, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rewards/add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(reward, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Gets all my rewards
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rewardsMyGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rewards/my`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OrgAPIApi - functional programming interface
+ * @export
+ */
+export const OrgAPIApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OrgAPIApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Adds new promotion
+         * @param {Promotion} [promotion] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async promotionsAddPost(promotion?: Promotion, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promotionsAddPost(promotion, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Gets all my promotions
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async promotionsMyGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Promotion>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promotionsMyGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Adds new reward
+         * @param {Reward} [reward] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async rewardsAddPost(reward?: Reward, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rewardsAddPost(reward, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Gets all my rewards
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async rewardsMyGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Reward>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rewardsMyGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * OrgAPIApi - factory interface
+ * @export
+ */
+export const OrgAPIApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OrgAPIApiFp(configuration)
+    return {
+        /**
+         * Adds new promotion
+         * @param {Promotion} [promotion] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promotionsAddPost(promotion?: Promotion, options?: any): AxiosPromise<void> {
+            return localVarFp.promotionsAddPost(promotion, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Gets all my promotions
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promotionsMyGet(options?: any): AxiosPromise<Array<Promotion>> {
+            return localVarFp.promotionsMyGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Adds new reward
+         * @param {Reward} [reward] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rewardsAddPost(reward?: Reward, options?: any): AxiosPromise<void> {
+            return localVarFp.rewardsAddPost(reward, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Gets all my rewards
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rewardsMyGet(options?: any): AxiosPromise<Array<Reward>> {
+            return localVarFp.rewardsMyGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OrgAPIApi - object-oriented interface
+ * @export
+ * @class OrgAPIApi
+ * @extends {BaseAPI}
+ */
+export class OrgAPIApi extends BaseAPI {
+    /**
+     * Adds new promotion
+     * @param {Promotion} [promotion] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrgAPIApi
+     */
+    public promotionsAddPost(promotion?: Promotion, options?: AxiosRequestConfig) {
+        return OrgAPIApiFp(this.configuration).promotionsAddPost(promotion, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Gets all my promotions
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrgAPIApi
+     */
+    public promotionsMyGet(options?: AxiosRequestConfig) {
+        return OrgAPIApiFp(this.configuration).promotionsMyGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Adds new reward
+     * @param {Reward} [reward] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrgAPIApi
+     */
+    public rewardsAddPost(reward?: Reward, options?: AxiosRequestConfig) {
+        return OrgAPIApiFp(this.configuration).rewardsAddPost(reward, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Gets all my rewards
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrgAPIApi
+     */
+    public rewardsMyGet(options?: AxiosRequestConfig) {
+        return OrgAPIApiFp(this.configuration).rewardsMyGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

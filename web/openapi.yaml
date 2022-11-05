@@ -93,6 +93,14 @@ paths:
       tags:
         - Customer API
       description: Attempts to buy a voucher
+      parameters:
+        - in: path
+          name: reward_id
+          required: true
+          schema:
+            type: integer
+            example: 42
+          description: Internal reward id
       responses:
         200:
           description: Successfully bought

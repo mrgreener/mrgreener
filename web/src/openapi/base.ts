@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * MrGreener
- * MrGreener
+ * Loyalty program for green initiatives
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -18,7 +18,7 @@ import { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export const BASE_PATH = "http://localhost/api/v1".replace(/\/+$/, "");
+export const BASE_PATH = "https://api.mrgreener.tech/v1/api".replace(/\/+$/, "");
 
 /**
  *
