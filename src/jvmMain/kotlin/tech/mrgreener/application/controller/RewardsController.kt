@@ -143,6 +143,7 @@ fun getRedeemedRewardVouchersForUser(
     pageId: Int = 0,
 ): List<RewardVoucher> {
     var result = emptyList<RewardVoucher>()
+
     sessionFactory.inTransaction {
         val query = it.createQuery(
             "select pva.voucher from PromotionVoucherActivation pva where pva.client.id=:userId",
