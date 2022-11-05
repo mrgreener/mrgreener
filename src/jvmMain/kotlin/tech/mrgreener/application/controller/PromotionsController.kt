@@ -24,7 +24,7 @@ fun addPromotion(
     name: String,
     description: String,
     rewardPoints: MoneyType,
-    shortDescription: String,
+    shortDescription: String? = null,
     pictureUrl: String? = null
 ): IdType {
     val promotion = Promotion(
@@ -41,7 +41,7 @@ fun addPromotion(
         it.persist(promotion)
     }
 
-    return promotion.id
+    return promotion.id!!
 }
 
 fun getPromotionById(promotionId: IdType): Promotion {
@@ -71,7 +71,7 @@ fun issueVoucher(
         it.persist(voucher)
     }
 
-    return voucher.id
+    return voucher.id!!
 }
 
 fun getPromotionVoucherById(voucherId: IdType): PromotionVoucher {
@@ -87,12 +87,13 @@ fun redeemVoucher(
     code: String
 ) {
     sessionFactory.inTransaction {
-        val voucher = it.createQuery("select v from PromotionVoucher where v.code=:code", PromotionVoucher::class.java)
-            .setParameter("code", code)
-            .uniqueResult() ?: throw VoucherCodeNotFoundException(code)
+        val voucher =
+            it.createQuery("select v from PromotionVoucher v where v.code=:code", PromotionVoucher::class.java)
+                .setParameter("code", code)
+                .uniqueResult() ?: throw VoucherCodeNotFoundException(code)
 
         if (voucher.activation != null) {
-            throw UsedVoucherException(voucher.id)
+            throw UsedVoucherException(voucher.id!!)
         }
 
         val activation = PromotionVoucherActivation(

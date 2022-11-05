@@ -9,7 +9,7 @@ import java.sql.Timestamp
 class Client(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: IdType = -1,
+    val id: IdType? = null,
 
     @Column(unique = true, nullable = false)
     val authId: String,
@@ -27,10 +27,10 @@ class Client(
     @Temporal(TemporalType.TIMESTAMP)
     val registeredOn: Timestamp,
 
-    @Column
+    @Column(nullable = true)
     val bio: String? = "Hello, I am new here!",
 
-    @Column
+    @Column(nullable = true)
     val avatarUrl: String? = null,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")

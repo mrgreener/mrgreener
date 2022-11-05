@@ -9,7 +9,7 @@ import java.sql.Timestamp
 class RewardVoucherActivation(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: IdType = -1,
+    val id: IdType? = null,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reward_voucher_id", referencedColumnName = "id")

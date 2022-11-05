@@ -27,7 +27,7 @@ fun addNewUser(
         it.persist(client)
     }
 
-    return client.id
+    return client.id!!
 }
 
 fun getUserById(userId: IdType): Client {

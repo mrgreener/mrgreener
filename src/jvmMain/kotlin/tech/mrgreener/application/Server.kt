@@ -9,7 +9,9 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import org.apache.log4j.BasicConfigurator
+import tech.mrgreener.application.controller.*
 import tech.mrgreener.application.model.initDbManager
+import java.util.UUID
 
 fun HTML.index() {
     head {
@@ -26,9 +28,48 @@ fun HTML.index() {
     }
 }
 
+fun rndStr(): String {
+    return UUID.randomUUID().toString()
+}
+
+fun basicControllersTests() {
+    val userId = addNewUser(
+        username = rndStr(),
+        authId = rndStr(),
+        name = rndStr()
+    )
+
+    val orgId = addOrganization(
+        name = rndStr(),
+        username = rndStr(),
+        authId = rndStr(),
+        description = rndStr(),
+        contactEmail = rndStr()
+    )
+
+    val promId = addPromotion(
+        organization = getOrganizationById(orgId),
+        name = rndStr(),
+        description = rndStr(),
+        rewardPoints = 666
+    )
+
+    val vouPromId = issueVoucher(
+        promotion = getPromotionById(promId),
+        rewardPoints = getPromotionById(promId).rewardPoints
+    )
+
+    redeemVoucher(
+        user = getUserById(userId),
+        code = getPromotionVoucherById(vouPromId).code
+    )
+}
+
 fun initServer() {
     BasicConfigurator.configure()
     initDbManager()
+
+    basicControllersTests()
 }
 
 
