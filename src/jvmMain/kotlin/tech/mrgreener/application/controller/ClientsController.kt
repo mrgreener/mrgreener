@@ -10,6 +10,7 @@ import java.sql.Timestamp
 import java.util.*
 
 class UserNotFoundException(userId: IdType) : NotFoundException("User $userId not found")
+class UsernameNotFoundException(username: String) : NotFoundException("Username $username not found")
 class NotAnAdminException(userId: IdType) : PermissionDeniedException("User $userId is not an admin")
 
 fun addNewUser(
@@ -37,6 +38,15 @@ fun getUserById(userId: IdType): Client {
         result = it.get(Client::class.java, userId);
     }
     return result ?: throw UserNotFoundException(userId)
+}
+
+fun getUserByUsername(username: String): Client {
+    var result: Client? = null
+    sessionFactory.inTransaction {
+        result = it.createQuery("select u from Client u where u.username=:username", Client::class.java)
+            .setParameter("username", username).singleResultOrNull
+    }
+    return result ?: throw UsernameNotFoundException(username)
 }
 
 fun assertExistsAndAdmin(userId: Long) {
