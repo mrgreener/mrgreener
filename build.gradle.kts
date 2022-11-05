@@ -23,21 +23,7 @@ kotlin {
             useJUnitPlatform()
         }
     }
-    js(LEGACY) {
-        binaries.executable()
-        browser {
-            commonWebpackConfig {
-                cssSupport.enabled = true
-            }
-        }
-    }
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
         val exposedVersion: String by project
         val h2Version: String by project
         val jvmMain by getting {
@@ -50,24 +36,11 @@ kotlin {
             }
         }
         val jvmTest by getting
-        val jsMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.346")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.346")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion:11.9.3-pre.346")
-            }
-        }
-        val jsTest by getting
     }
 }
 
 application {
     mainClass.set("tech.mrgreener.application.ServerKt")
-}
-
-tasks.named<Copy>("jvmProcessResources") {
-    val jsBrowserDistribution = tasks.named("jsBrowserDistribution")
-    from(jsBrowserDistribution)
 }
 
 tasks.named<JavaExec>("run") {
