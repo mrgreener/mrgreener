@@ -46,7 +46,10 @@ kotlin {
                 implementation("io.ktor:ktor-server-html-builder-jvm:2.0.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
                 implementation("org.hibernate:hibernate-core:6.1.5.Final")
-                implementation("org.postgresql:postgresql:42.1.4")
+                implementation("org.postgresql:postgresql:42.5.0")
+
+                implementation("org.slf4j:slf4j-api:1.7.25")
+                implementation("org.slf4j:slf4j-log4j12:1.7.5")
             }
         }
         val jvmTest by getting

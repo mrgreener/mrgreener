@@ -8,6 +8,8 @@ import io.ktor.server.http.content.*
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.*
 import kotlinx.html.*
+import org.apache.log4j.BasicConfigurator
+import tech.mrgreener.application.model.initDbManager
 
 fun HTML.index() {
     head {
@@ -24,7 +26,15 @@ fun HTML.index() {
     }
 }
 
+fun initServer() {
+    BasicConfigurator.configure()
+    initDbManager()
+}
+
+
 fun main() {
+    initServer()
+
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         routing {
             get("/") {
