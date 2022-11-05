@@ -16,9 +16,9 @@ class Client(
     @Column(nullable = false)
     val isAdmin: Boolean,
 
-    @Column(nullable = false)
+    @Column(name = "registered_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    val registered_on: Timestamp,
+    val registeredOn: Timestamp,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
     val promotionVouchersActivations: List<PromotionVoucherActivation>,
