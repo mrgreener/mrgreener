@@ -1,6 +1,7 @@
 package tech.mrgreener.application.controller
 
 import tech.mrgreener.application.NotFoundException
+import tech.mrgreener.application.model.IdType
 import tech.mrgreener.application.model.entities.Client
 import tech.mrgreener.application.model.sessionFactory
 import java.sql.Timestamp
@@ -13,10 +14,19 @@ fun addNewUser(
     username: String,
     authId: String,
     name: String,
-) {
+): IdType {
+    val client = Client(
+        username = username,
+        authId = authId,
+        name = name,
+        registeredOn = Timestamp(Date().time)
+    )
+
     sessionFactory.inTransaction {
-        it.persist(Client(username = username, authId = authId, name = name, registeredOn = Timestamp(Date().time)))
+        it.persist(client)
     }
+
+    return client.id
 }
 
 fun assertExistsAndAdmin(userId: Long) {
