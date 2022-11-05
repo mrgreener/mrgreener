@@ -21,6 +21,9 @@ class Organization(
     val name: String,
 
     @Column(nullable = false)
+    val apiKey: String,
+
+    @Column(nullable = false)
     val verified: Boolean = false,
 
     @Column(nullable = true, columnDefinition = "text")

@@ -19,17 +19,18 @@ class Reward(
     @Column(nullable = false, columnDefinition = "text")
     val description: String,
 
-    @Column(name = "short_description")
-    val shortDescription: String,
+    @Column(nullable = false)
+    val content: String, // promo-codes mock
+
+    @Column(name = "short_description", nullable = true)
+    val shortDescription: String? = null,
 
     @Column(nullable = false)
     val verified: Boolean = false,
 
-    /***
-     * id of organization which created current reward
-     */
-    @Column(nullable = false)
-    val organizationId: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", referencedColumnName = "id")
+    val organization: Organization,
 
     @Column(nullable = false)
     val price: MoneyType,
@@ -45,5 +46,5 @@ class Reward(
     val createdOn: Timestamp,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reward")
-    val vouchers: List<RewardVoucher>,
+    val vouchers: List<RewardVoucher> = emptyList(),
 )

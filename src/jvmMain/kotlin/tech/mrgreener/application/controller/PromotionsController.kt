@@ -1,6 +1,5 @@
 package tech.mrgreener.application.controller
 
-import kotlinx.coroutines.selects.select
 import tech.mrgreener.application.BadRequestException
 import tech.mrgreener.application.NotFoundException
 import tech.mrgreener.application.PROMOTION_VOUCHER_CODE_LENGTH
@@ -15,9 +14,12 @@ import kotlin.random.Random
 
 
 class PromotionNotFoundException(promotionId: IdType) : NotFoundException("Promotion $promotionId not found")
-class VoucherCodeNotFoundException(code: String) : NotFoundException("Voucher with code $code not found")
-class VoucherNotFoundException(voucherId: IdType) : NotFoundException("Voucher $voucherId not found")
-class UsedVoucherException(voucherId: IdType) : BadRequestException("Voucher $voucherId was already activated")
+class PromotionVoucherCodeNotFoundException(code: String) :
+    NotFoundException("Promotion voucher with code $code not found")
+
+class PromotionVoucherNotFoundException(voucherId: IdType) : NotFoundException("Promotion voucher $voucherId not found")
+class PromotionUsedVoucherException(voucherId: IdType) :
+    BadRequestException("Promotion voucher $voucherId was already activated")
 
 fun addPromotion(
     organization: Organization,
@@ -52,11 +54,11 @@ fun getPromotionById(promotionId: IdType): Promotion {
     return result ?: throw PromotionNotFoundException(promotionId)
 }
 
-fun generateCode() = (1..PROMOTION_VOUCHER_CODE_LENGTH).map {
+fun generatePromotionVoucherCode() = (1..PROMOTION_VOUCHER_CODE_LENGTH).map {
     Random.nextInt(0, PROMOTION_VOUCHER_CODE_SYMBOLS.length).let { PROMOTION_VOUCHER_CODE_SYMBOLS[it] }
 }.joinToString("")
 
-fun issueVoucher(
+fun issuePromotionVoucher(
     promotion: Promotion,
     rewardPoints: MoneyType
 ): IdType {
@@ -64,7 +66,7 @@ fun issueVoucher(
         promotion = promotion,
         rewardPoints = rewardPoints,
         issuedOn = Timestamp(Date().time),
-        code = generateCode()
+        code = generatePromotionVoucherCode()
     )
 
     sessionFactory.inTransaction {
@@ -79,10 +81,10 @@ fun getPromotionVoucherById(voucherId: IdType): PromotionVoucher {
     sessionFactory.inTransaction {
         result = it.get(PromotionVoucher::class.java, voucherId);
     }
-    return result ?: throw VoucherNotFoundException(voucherId)
+    return result ?: throw PromotionVoucherNotFoundException(voucherId)
 }
 
-fun redeemVoucher(
+fun redeemPromotionVoucher(
     user: Client,
     code: String
 ) {
@@ -90,10 +92,10 @@ fun redeemVoucher(
         val voucher =
             it.createQuery("select v from PromotionVoucher v where v.code=:code", PromotionVoucher::class.java)
                 .setParameter("code", code)
-                .uniqueResult() ?: throw VoucherCodeNotFoundException(code)
+                .uniqueResult() ?: throw PromotionVoucherCodeNotFoundException(code)
 
         if (voucher.activation != null) {
-            throw UsedVoucherException(voucher.id!!)
+            throw PromotionUsedVoucherException(voucher.id!!)
         }
 
         val activation = PromotionVoucherActivation(

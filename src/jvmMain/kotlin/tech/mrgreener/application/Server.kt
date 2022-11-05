@@ -54,12 +54,12 @@ fun basicControllersTests() {
         rewardPoints = 666
     )
 
-    val vouPromId = issueVoucher(
+    val vouPromId = issuePromotionVoucher(
         promotion = getPromotionById(promId),
         rewardPoints = getPromotionById(promId).rewardPoints
     )
 
-    redeemVoucher(
+    redeemPromotionVoucher(
         user = getUserById(userId),
         code = getPromotionVoucherById(vouPromId).code
     )

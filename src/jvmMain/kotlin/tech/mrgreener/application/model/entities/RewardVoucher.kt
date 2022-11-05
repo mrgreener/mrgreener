@@ -23,5 +23,5 @@ class RewardVoucher(
     val issuedOn: Timestamp,
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "voucher", optional = true)
-    val activation: RewardVoucherActivation?
+    val activation: RewardVoucherActivation? = null
 )

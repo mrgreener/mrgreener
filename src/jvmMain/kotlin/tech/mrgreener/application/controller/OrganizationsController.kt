@@ -30,7 +30,8 @@ fun addOrganization(
         avatarUrl = avatarUrl,
         location = location,
         siteUrl = siteUrl,
-        registeredOn = Timestamp(Date().time)
+        registeredOn = Timestamp(Date().time),
+        apiKey = UUID.randomUUID().toString()
     )
 
     sessionFactory.inTransaction {
