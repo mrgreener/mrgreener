@@ -19,11 +19,11 @@ class Reward(
     @Column(nullable = false, columnDefinition = "text")
     val description: String,
 
-    @Column(name = "short_description", nullable = true)
+    @Column(name = "short_description")
     val shortDescription: String,
 
     @Column(nullable = false)
-    val verified: Boolean,
+    val verified: Boolean = false,
 
     /***
      * id of organization which created current reward
@@ -35,14 +35,14 @@ class Reward(
     val price: MoneyType,
 
     @Column(name = "is_active", nullable = false)
-    val isActive: Boolean,
+    val isActive: Boolean = true,
+
+    @Column(nullable = true)
+    val pictureUrl: String? = null,
 
     @Column(nullable = false)
-    val pictureUrl: String,
-
-    @Column(name = "registration_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    val registrationDate: Timestamp,
+    val createdOn: Timestamp,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reward")
     val vouchers: List<RewardVoucher>,
