@@ -8,8 +8,6 @@ import { getAuth, User } from "firebase/auth";
 
 let activeClassName = "active";
 
-interface NoUser {}
-
 function App(this: any) {
   useEffect(() => {
     document.title = "MrGreener";

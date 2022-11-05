@@ -211,6 +211,20 @@ paths:
           description: Error occured
       security:
         - BearerAuth: [ ]
+  /organizations/all:
+    get:
+      tags:
+        - Consumer API
+      description: Gets all verified organizations
+      responses:
+        200:
+          description: Successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Organization"
 components:
   schemas:
     Profile:
@@ -264,6 +278,10 @@ components:
         reward_points:
           type: integer
           example: 10
+        organization_id:
+          type: integer
+          example: 566
+          description: Internal organization id
         company_name:
           type: string
           example: Avocado Shop
@@ -316,6 +334,9 @@ components:
         price_points:
           type: integer
           example: 3000
+        organization_id:
+          type: integer
+          example: 566
         company_name:
           type: string
           example: Bike Shop
@@ -379,6 +400,41 @@ components:
       required:
         - rewardPoints
         - promotion_id
+    Organization:
+      properties:
+        name:
+          type: string
+          example: "Avocado Shop"
+        username:
+          type: string
+          example: "avocadoshop"
+        registeredOn:
+          type: string
+          format: datetime
+          example: "2022-11-06T00:49"
+        description:
+          type: string
+          example: Best Avocado Shop in the town
+        avatarUrl:
+          type: string
+          format: url
+          example: "https://imgmedia.lbb.in/media/2019/11/5dcae73a53703c2f98a1da63_1573578554772.jpg"
+        location:
+          type: string
+          example: "Campus Ring 1, Bremen, Germany"
+        siteUrl:
+          type: string
+          format: url
+          example: "https://www.avocadostore.de"
+        contactEmail:
+          type: string
+          format: email
+          example: "inbox@avocadostore.de"
+      required:
+        - name
+        - username
+        - description
+        - contactEmail
 
   securitySchemes:
     BearerAuth:

@@ -9,15 +9,18 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
 
-import Homepage from "./components/Homepage/Homepage";
-
 import NotFound from "./components/NotFound/NotFound";
-import {DefaultApi} from "./openapi";
+import {CustomerAPIApi, DefaultApi} from "./openapi";
 import {API_ENDPOINT, firebaseConfig} from "./react-app-env";
 
 import axios from "axios";
 import LoginPage from "./components/LoginPage/LoginPage";
-import OrganizationHub from "./components/OrganizationHub/OrganizationHub";
+import LandingPage from "./components/LandingPage/LandingPage";
+import EarnPage from "./components/EarnPage/EarnPage";
+import SpendPage from "./components/SpendPage/SpendPage";
+import RedeemPage from "./components/RedeemPage/RedeemPage";
+import RewardDetail from "./components/RewardDetail/RewardDetail";
+import PromotionDetail from "./components/PromotionDetail/PromotionDetail";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -38,7 +41,7 @@ myaxios.interceptors.request.use(
   }
 );
 
-export const Api = new DefaultApi(undefined, API_ENDPOINT, myaxios);
+export const Api = new CustomerAPIApi(undefined, API_ENDPOINT, myaxios);
 
 const router = createBrowserRouter([
   {
@@ -48,18 +51,34 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Homepage />,
+        element: <LandingPage />,
       },
       {
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/earn",
+        element: <EarnPage/>
+      },
+      {
+        path: "/spend",
+        element: <SpendPage/>
+      },
+      {
+        path: "/redeem",
+        element: <RedeemPage/>
+      },
+      {
+        path: "/reward/:id",
+        element: <RewardDetail/>
+      },
+      {
+        path: "/promotion/:id",
+        element: <PromotionDetail/>
+      }
     ],
-  },
-  {
-    path: "/orgs",
-    element: <OrganizationHub />,
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(

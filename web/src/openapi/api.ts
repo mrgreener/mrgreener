@@ -24,6 +24,61 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface Organization
+ */
+export interface Organization {
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'registeredOn'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'avatarUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'location'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'siteUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Organization
+     */
+    'contactEmail': string;
+}
+/**
+ * 
+ * @export
  * @interface Profile
  */
 export interface Profile {
@@ -112,6 +167,12 @@ export interface Promotion {
      * @memberof Promotion
      */
     'reward_points': number;
+    /**
+     * Internal organization id
+     * @type {number}
+     * @memberof Promotion
+     */
+    'organization_id'?: number;
     /**
      * 
      * @type {string}
@@ -218,6 +279,12 @@ export interface Reward {
     'price_points': number;
     /**
      * 
+     * @type {number}
+     * @memberof Reward
+     */
+    'organization_id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof Reward
      */
@@ -279,6 +346,100 @@ export interface VoucherRequest {
      */
     'promotion_id': number;
 }
+
+/**
+ * ConsumerAPIApi - axios parameter creator
+ * @export
+ */
+export const ConsumerAPIApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Gets all verified organizations
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        organizationsAllGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/organizations/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ConsumerAPIApi - functional programming interface
+ * @export
+ */
+export const ConsumerAPIApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ConsumerAPIApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Gets all verified organizations
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async organizationsAllGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Organization>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.organizationsAllGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ConsumerAPIApi - factory interface
+ * @export
+ */
+export const ConsumerAPIApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ConsumerAPIApiFp(configuration)
+    return {
+        /**
+         * Gets all verified organizations
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        organizationsAllGet(options?: any): AxiosPromise<Array<Organization>> {
+            return localVarFp.organizationsAllGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ConsumerAPIApi - object-oriented interface
+ * @export
+ * @class ConsumerAPIApi
+ * @extends {BaseAPI}
+ */
+export class ConsumerAPIApi extends BaseAPI {
+    /**
+     * Gets all verified organizations
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConsumerAPIApi
+     */
+    public organizationsAllGet(options?: AxiosRequestConfig) {
+        return ConsumerAPIApiFp(this.configuration).organizationsAllGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * CustomerAPIApi - axios parameter creator
