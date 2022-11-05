@@ -57,7 +57,7 @@ fun getUserTotalIncome(userId: IdType): MoneyType {
             "select sum(a.voucher.rewardPoints) " +
                     "from PromotionVoucherActivation a where a.client.id=:clientId",
             MoneyType::class.java
-        ).setParameter("clientId", userId).singleResult
+        ).setParameter("clientId", user.id!!).singleResult ?: 0
     }
 
     return result!!
@@ -72,7 +72,7 @@ fun getUserTotalSpending(userId: IdType): MoneyType {
             "select sum(a.voucher.reward.price) " +
                     "from RewardVoucherActivation a where a.client.id=:clientId",
             MoneyType::class.java
-        ).setParameter("clientId", userId).singleResult
+        ).setParameter("clientId", user.id!!).singleResult ?: 0
     }
 
     return result!!

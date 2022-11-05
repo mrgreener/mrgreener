@@ -66,6 +66,29 @@ fun basicControllersTests() {
         user = getUserById(userId),
         code = getPromotionVoucherById(vouPromId).code
     )
+
+    val rewOrgId = addOrganization(
+        name = rndStr(),
+        username = rndStr(),
+        authId = rndStr(),
+        description = rndStr(),
+        contactEmail = rndStr()
+    )
+
+    val rewId = addReward(
+        organization = getOrganizationById(rewOrgId),
+        name = rndStr(),
+        description = rndStr(),
+        content = rndStr(),
+        price = 566
+    )
+
+    buyReward(
+        user = getUserById(userId),
+        reward = getRewardById(rewId)
+    )
+
+    assert(getUserBalance(userId) == 100L)
 }
 
 fun initServer() {
