@@ -1,0 +1,314 @@
+openapi: '3.0.1'
+info:
+  title: MrGreener
+  description: Loyalty program for green initiatives
+  version: 1.0.0
+servers:
+  - url: https://api.mrgreener.tech/v1/api
+  - url: http://localhost/v1/api
+paths:
+  /health:
+    get:
+      summary: Check status
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: OK
+  /profiles/{username}/get:
+    get:
+      tags:
+        - Customer API
+      summary: Check user
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+            example: ea73bc
+          description: The username
+      responses:
+        200:
+          description: Got Profiles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        404:
+          description: Not Found
+      security:
+        - BearerAuth: [ ]
+  /getMe:
+    get:
+      tags:
+        - Customer API
+      description: Gets my profile
+      responses:
+        200:
+          description: Successfully got my profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+      security:
+        - BearerAuth: [ ]
+  /promotions/all:
+    get:
+      tags:
+        - Customer API
+      description: Gets all active&verified promotions
+      responses:
+        200:
+          description: Successfully got all promotions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Promotion"
+      security:
+        - BearerAuth: [ ]
+  /rewards/all:
+    get:
+      tags:
+        - Customer API
+      description: Lists all active&verified rewards
+      responses:
+        200:
+          description: Successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reward"
+      security:
+        - BearerAuth: [ ]
+  /buyReward/{reward_id}:
+    post:
+      tags:
+        - Customer API
+      description: Attempts to buy a voucher
+      responses:
+        200:
+          description: Successfully bought
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RewardVoucher"
+        400:
+          description: Unable to purchase
+      security:
+        - BearerAuth: [ ]
+  /rewards/my:
+    get:
+      tags:
+        - Org API
+      description: Gets all my rewards
+      responses:
+        200:
+          description: Successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reward"
+  /rewards/add:
+    post:
+      tags:
+        - Org API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Reward"
+      description: Adds new reward
+      responses:
+        200:
+          description: Successfully added
+  /promotions/my:
+    get:
+      tags:
+        - Org API
+      description: Gets all my promotions
+      responses:
+        200:
+          description: Successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Promotion"
+  /promotions/add:
+    post:
+      tags:
+        - Org API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Promotion"
+      description: Adds new promotion
+      responses:
+        200:
+          description: Successfully added
+components:
+  schemas:
+    Profile:
+      properties:
+        registered_on:
+          type: string
+          format: datetime
+          example: "2022-11-06T11:00"
+        username:
+          type: string
+          example: john.smith
+        name:
+          type: string
+          example: "John Smith"
+        description:
+          type: string
+          example: "Student @ Jacobs University"
+        avatar_url:
+          type: string
+          format: url
+          example: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTkxMTc1NzA2MzA1MTc3MzI0/portrait-of-john-smith.jpg"
+        points:
+          type: integer
+          example: 1380
+      required:
+        - registered_on
+        - name
+        - description
+        - points
+    Promotion:
+      properties:
+        name:
+          type: string
+          example: "Avocado"
+        promotion_id:
+          type: integer
+          example: 21
+        price_string:
+          type: string
+          example: "$3"
+        picture_url:
+          type: string
+          format: url
+          example: "http://www.kochschule.de/sites/default/files/images/kochwissen/422/avocado.jpg"
+        description_short:
+          type: string
+          example: "Delicious avocado. Yummy :D"
+        description_long:
+          type: string
+          example: "Avocado from the hottest regions of Latin America. Very tasty and very healthy."
+        reward_points:
+          type: integer
+          example: 10
+        company_name:
+          type: string
+          example: Avocado Shop
+        company_avatar_url:
+          type: string
+          format: url
+          example: "https://imgmedia.lbb.in/media/2019/11/5dcae73a53703c2f98a1da63_1573578554772.jpg"
+        link_to_store:
+          type: string
+          format: url
+          example: "https://www.avocadostore.de/shops/lilli-green-shop"
+        where_to_get:
+          type: string
+          example: "Visit us at 1200 Pennsylvania Avenue"
+        verified:
+          type: boolean
+          example: true
+        is_active:
+          type: boolean
+          example: true
+      required:
+        - name
+        - price_string
+        - description_long
+        - description_short
+        - reward_points
+        - company_name
+        - link_to_store
+        - verified
+        - is_active
+    Reward:
+      properties:
+        name:
+          type: string
+          example: "Bicycle"
+        reward_id:
+          description: Internal reward identifier
+          type: integer
+          example: 42
+        picture_url:
+          type: string
+          format: url
+          example: "https://www.rei.com/dam/content_team_071018_0071_htc_bike_hero_lg.jpg"
+        description_short:
+          type: string
+          example: "Very fast bike. Good for environment!"
+        description_long:
+          type: string
+          example: "A bicycle, also called a pedal cycle, bike or cycle, is a human-powered or motor-powered assisted, pedal-driven, single-track vehicle, having two wheels attached to a frame, one behind the other. A bicycle rider is called a cyclist, or bicyclist."
+        price_points:
+          type: integer
+          example: 3000
+        company_name:
+          type: string
+          example: Bike Shop
+        company_avatar_url:
+          type: string
+          format: url
+          example: "https://www.bikeshop-sundern.de/wp-content/uploads/2020/05/bikeshop_reperatur_001.jpg"
+        verified:
+          type: boolean
+          example: true
+        is_active:
+          type: boolean
+          example: true
+      required:
+        - name
+        - description_short
+        - description_long
+        - price_points
+        - company_name
+        - verified
+        - is_active
+    RewardVoucher:
+      properties:
+        content:
+          type: string
+          format: "Promo-code: JACOBSHACK22"
+        issuedOn:
+          type: string
+          format: datetime
+          example: "2022-11-05T23:59"
+      required:
+        - content
+        - issuedOn
+    ReviewResult:
+      type: integer
+      minimum: 0
+      maximum: 1
+      description: 0 = declined, 1 = approved
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+tags:
+  - name: Customer API
+  - name: Org API

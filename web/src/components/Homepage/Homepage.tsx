@@ -1,12 +1,7 @@
-import React, { FC } from 'react';
-
+import React, { FC } from "react";
 
 interface HomepageProps {}
 
-const Homepage: FC<HomepageProps> = () => (
-  <div>
-    Homepage Component
-  </div>
-);
+const Homepage: FC<HomepageProps> = () => <div>Homepage Component</div>;
 
 export default Homepage;

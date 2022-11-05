@@ -1,16 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./img/logo.svg";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 import "./App.css";
-import { Image } from "react-bootstrap";
+import { Image, Placeholder } from "react-bootstrap";
+import { getAuth, User } from "firebase/auth";
 
 let activeClassName = "active";
 
-function App() {
+interface NoUser {}
+
+function App(this: any) {
   useEffect(() => {
     document.title = "MrGreener";
   }, []);
+
+  const auth = getAuth();
+  const [loaded, updateLoaded] = useState<boolean>(false);
+  const [user, updateUser] = useState<User | undefined>();
+  auth
+    .onAuthStateChanged((user_) => {
+      updateUser(() => {
+        updateLoaded(true);
+        if (user_ == null) return undefined;
+        else return user_;
+      });
+    })
+    .bind(this);
+
   return (
     <>
       <nav className="navbar navbar-expand-md mb-5 bg-secondary">
@@ -47,26 +64,6 @@ function App() {
                   Home
                 </NavLink>
               </li>
-              {/*<li className="nav-item">*/}
-              {/*  <NavLink*/}
-              {/*    to="/assignments"*/}
-              {/*    className={({ isActive }) =>*/}
-              {/*      "nav-link " + (isActive ? activeClassName : "")*/}
-              {/*    }*/}
-              {/*  >*/}
-              {/*    Assignments*/}
-              {/*  </NavLink>*/}
-              {/*</li>*/}
-              {/*<li className="nav-item">*/}
-              {/*  <NavLink*/}
-              {/*    to="/groups"*/}
-              {/*    className={({ isActive }) =>*/}
-              {/*      "nav-link " + (isActive ? activeClassName : "")*/}
-              {/*    }*/}
-              {/*  >*/}
-              {/*    Groups*/}
-              {/*  </NavLink>*/}
-              {/*</li>*/}
               <li className="nav-item">
                 <NavLink
                   to="/new"
@@ -88,15 +85,29 @@ function App() {
                 </NavLink>
               </li>
             </ul>
-            <span className="navbar-text actions">
-              <a
-                role="button"
-                className="btn action-button btn-primary my-2 my-sm-0"
-                id="login_button"
-              >
-                Login
-              </a>
-            </span>
+            <Placeholder
+              as={"span"}
+              className="navbar-text actions"
+              animation="glow"
+            >
+              {loaded ? (
+                <>
+                  {user === undefined && (
+                    <Link
+                      to={"/login"}
+                      role="button"
+                      className="btn action-button btn-primary my-2 my-sm-0"
+                      id="login_button"
+                    >
+                      Login
+                    </Link>
+                  )}
+                  {user !== undefined && <p>Hi {user.displayName ?? "null"}</p>}
+                </>
+              ) : (
+                <Placeholder xs={4} />
+              )}
+            </Placeholder>
           </div>
         </div>
       </nav>
@@ -122,18 +133,18 @@ function App() {
             <div className="collapse" id="collapseImprint">
               <div className="card card-body">
                 <p className="text-muted">
-                  This website is student hackathon project and does not necessarily
-                  reflect Jacobs University Bremen opinions. Jacobs University
-                  Bremen does not endorse this site, nor is it checked by Jacobs
-                  University Bremen regularly, nor is it part of the official
-                  Jacobs University Bremen web presence. For each external link
-                  existing on this website, we initially have checked that the
-                  target page does not contain contents which is illegal wrt.
-                  German jurisdiction. However, as we have no influence on such
-                  contents, this may change without our notice. Therefore we
-                  deny any responsibility for the websites referenced through
-                  our external links from here. No information conflicting with
-                  GDPR is stored in the server.
+                  This website is student hackathon project and does not
+                  necessarily reflect Jacobs University Bremen opinions. Jacobs
+                  University Bremen does not endorse this site, nor is it
+                  checked by Jacobs University Bremen regularly, nor is it part
+                  of the official Jacobs University Bremen web presence. For
+                  each external link existing on this website, we initially have
+                  checked that the target page does not contain contents which
+                  is illegal wrt. German jurisdiction. However, as we have no
+                  influence on such contents, this may change without our
+                  notice. Therefore we deny any responsibility for the websites
+                  referenced through our external links from here. No
+                  information conflicting with GDPR is stored in the server.
                 </p>
               </div>
             </div>
