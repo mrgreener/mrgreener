@@ -107,3 +107,26 @@ fun redeemPromotionVoucher(
         it.persist(activation)
     }
 }
+
+fun getPromotionsForOrganization(
+    organization: Organization,
+    pageSize: Int? = null,
+    pageId: Int = 0,
+): List<Promotion> {
+    var result = emptyList<Promotion>()
+    sessionFactory.inTransaction {
+        val query = it.createQuery(
+            "select p from Promotion p where p.organization.id=:organizationId",
+            Promotion::class.java
+        ).setParameter("organizationId", organization.id!!)
+
+        if (pageSize != null) {
+            val firstResult = pageId * pageSize;
+            query.firstResult = firstResult
+            query.maxResults = pageSize
+        }
+        result = query.resultList
+    }
+
+    return result
+}
