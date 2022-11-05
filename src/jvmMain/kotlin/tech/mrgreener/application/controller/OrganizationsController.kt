@@ -20,22 +20,24 @@ fun addOrganization(
     avatarUrl: String? = null,
     location: String? = null,
     siteUrl: String? = null,
-) {
-    sessionFactory.inTransaction {
-        val organization = Organization(
-            username = username,
-            authId = authId,
-            name = name,
-            description = description,
-            contactEmail = contactEmail,
-            avatarUrl = avatarUrl,
-            location = location,
-            siteUrl = siteUrl,
-            registeredOn = Timestamp(Date().time)
-        )
+): IdType {
+    val organization = Organization(
+        username = username,
+        authId = authId,
+        name = name,
+        description = description,
+        contactEmail = contactEmail,
+        avatarUrl = avatarUrl,
+        location = location,
+        siteUrl = siteUrl,
+        registeredOn = Timestamp(Date().time)
+    )
 
+    sessionFactory.inTransaction {
         it.persist(organization)
     }
+
+    return organization.id!!
 }
 
 fun getOrganizationById(organizationId: IdType): Organization {
