@@ -1,6 +1,8 @@
 package tech.mrgreener.application.model.entities
 
 import jakarta.persistence.*
+import tech.mrgreener.application.model.IdType
+import tech.mrgreener.application.model.MoneyType
 import java.io.File
 import java.sql.Timestamp
 
@@ -9,7 +11,7 @@ import java.sql.Timestamp
 class Reward(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: IdType = -1,
 
     @Column(nullable = false)
     val name: String,
@@ -30,7 +32,7 @@ class Reward(
     val organizationId: String,
 
     @Column(nullable = false)
-    val price: Long,
+    val price: MoneyType,
 
     @Column(name = "is_active", nullable = false)
     val isActive: Boolean,

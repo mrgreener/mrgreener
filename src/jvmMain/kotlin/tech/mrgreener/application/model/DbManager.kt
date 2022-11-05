@@ -6,6 +6,9 @@ import tech.mrgreener.application.model.entities.*
 
 lateinit var sessionFactory: SessionFactory
 
+typealias IdType = Long
+typealias MoneyType = Long
+
 fun initDbManager() {
     sessionFactory = Configuration()
         .addAnnotatedClass(Client::class.java)

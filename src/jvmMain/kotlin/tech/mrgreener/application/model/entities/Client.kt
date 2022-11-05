@@ -1,6 +1,7 @@
 package tech.mrgreener.application.model.entities
 
 import jakarta.persistence.*
+import tech.mrgreener.application.model.IdType
 import java.sql.Timestamp
 
 @Entity
@@ -8,10 +9,13 @@ import java.sql.Timestamp
 class Client(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: IdType = -1,
 
     @Column(nullable = false)
     val username: String,
+
+    @Column(nullable = false)
+    val name: String,
 
     @Column(nullable = false)
     val isAdmin: Boolean = false,
@@ -21,8 +25,8 @@ class Client(
     val registeredOn: Timestamp,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-    val promotionVouchersActivations: List<PromotionVoucherActivation>?,
+    val promotionVouchersActivations: List<PromotionVoucherActivation> = emptyList(),
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-    val rewardVouchersActivations: List<RewardVoucherActivation>?
+    val rewardVouchersActivations: List<RewardVoucherActivation> = emptyList()
 )

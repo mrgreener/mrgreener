@@ -1,6 +1,7 @@
 package tech.mrgreener.application.model.entities
 
 import jakarta.persistence.*
+import tech.mrgreener.application.model.IdType
 import java.sql.Timestamp
 
 @Entity
@@ -8,30 +9,30 @@ import java.sql.Timestamp
 class Organization(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: IdType = -1,
 
     @Column(nullable = false)
     val name: String,
 
     @Column(nullable = false)
-    val verified: Boolean,
+    val verified: Boolean = false,
 
     @Column(nullable = true, columnDefinition = "text")
     val description: String,
 
-    @Column(name = "avatar_url", nullable = false)
-    val avatarUrl: String,
+    @Column(name = "avatar_url", nullable = true)
+    val avatarUrl: String? = null,
 
     @Column(nullable = true)
-    val location: String,
+    val location: String? = null,
 
     @Column(name = "site_url", nullable = true)
-    val siteUrl: String,
+    val siteUrl: String? = null,
 
     @Column(name = "contact_email", nullable = false)
     val contactEmail: String,
 
-    @Column(name = "registration_date", nullable = true)
+    @Column(name = "registered_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    val registrationDate: Timestamp
+    val registeredOn: Timestamp
 )

@@ -1,6 +1,8 @@
 package tech.mrgreener.application.model.entities
 
 import jakarta.persistence.*
+import tech.mrgreener.application.model.IdType
+import tech.mrgreener.application.model.MoneyType
 import java.sql.Timestamp
 
 @Entity
@@ -8,7 +10,7 @@ import java.sql.Timestamp
 class Promotion(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: IdType = -1,
 
     @Column(nullable = false)
     val name: String,
@@ -17,30 +19,28 @@ class Promotion(
     val description: String,
 
     @Column(name = "short_description", nullable = true)
-    val shortDescription: String,
+    val shortDescription: String? = null,
 
     @Column(nullable = false)
-    val verified: Boolean,
+    val verified: Boolean = false,
 
-    /***
-     * id of organization which created current promotion
-     */
-    @Column(nullable = false)
-    val organization_id: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", referencedColumnName = "id")
+    val organization: Organization,
 
     @Column(name = "reward_points", nullable = false)
-    val rewardPoints: Long,
+    val rewardPoints: MoneyType,
 
     @Column(nullable = false)
-    val is_active: Boolean,
+    val isActive: Boolean = true,
 
-    @Column(nullable = false)
-    val picture_url: String,
+    @Column(nullable = true)
+    val pictureUrl: String? = null,
 
-    @Column(name = "registration_date", nullable = false)
+    @Column(name = "created_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    val registrationDate: Timestamp,
+    val createdOn: Timestamp,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotion")
-    val vouchers: List<PromotionVoucher>,
+    val vouchers: List<PromotionVoucher> = emptyList(),
 )

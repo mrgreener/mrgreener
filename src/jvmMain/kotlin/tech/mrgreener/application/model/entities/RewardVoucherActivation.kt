@@ -1,6 +1,7 @@
 package tech.mrgreener.application.model.entities
 
 import jakarta.persistence.*
+import tech.mrgreener.application.model.IdType
 import java.sql.Timestamp
 
 @Entity
@@ -8,7 +9,7 @@ import java.sql.Timestamp
 class RewardVoucherActivation(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: IdType = -1,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reward_voucher_id", referencedColumnName = "id")
