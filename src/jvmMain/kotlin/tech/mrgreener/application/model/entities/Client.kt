@@ -11,7 +11,10 @@ class Client(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: IdType = -1,
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
+    val authId: String,
+
+    @Column(unique = true, nullable = false)
     val username: String,
 
     @Column(nullable = false)
@@ -23,6 +26,12 @@ class Client(
     @Column(name = "registered_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     val registeredOn: Timestamp,
+
+    @Column
+    val bio: String? = "Hello, I am new here!",
+
+    @Column
+    val avatarUrl: String? = null,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
     val promotionVouchersActivations: List<PromotionVoucherActivation> = emptyList(),

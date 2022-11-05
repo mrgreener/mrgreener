@@ -7,6 +7,8 @@ import java.util.*
 
 fun addOrganization(
     name: String,
+    username: String,
+    authId: String,
     description: String,
     contactEmail: String,
     avatarUrl: String? = null,
@@ -15,6 +17,8 @@ fun addOrganization(
 ) {
     sessionFactory.inTransaction {
         val organization = Organization(
+            username = username,
+            authId = authId,
             name = name,
             description = description,
             contactEmail = contactEmail,

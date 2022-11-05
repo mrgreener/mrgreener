@@ -11,10 +11,11 @@ class NotAnAdminException(userId: Long) : NotFoundException("User $userId is not
 
 fun addNewUser(
     username: String,
+    authId: String,
     name: String,
 ) {
     sessionFactory.inTransaction {
-        it.persist(Client(username = username, name = name, registeredOn = Timestamp(Date().time)))
+        it.persist(Client(username = username, authId = authId, name = name, registeredOn = Timestamp(Date().time)))
     }
 }
 

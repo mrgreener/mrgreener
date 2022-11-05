@@ -11,6 +11,12 @@ class Organization(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: IdType = -1,
 
+    @Column(unique = true, nullable = false)
+    val authId: String,
+
+    @Column(unique = true, nullable = false)
+    val username: String,
+
     @Column(nullable = false)
     val name: String,
 
