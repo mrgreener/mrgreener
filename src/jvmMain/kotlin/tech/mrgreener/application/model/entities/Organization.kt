@@ -13,6 +13,9 @@ class Organization(
     @Column(nullable = false)
     val name: String,
 
+    @Column(nullable = false)
+    val verified: Boolean,
+
     @Column(nullable = true, columnDefinition = "text")
     val description: String,
 

@@ -16,6 +16,9 @@ class Promotion(
     @Column(nullable = false, columnDefinition = "text")
     val description: String,
 
+    @Column(nullable = false)
+    val verified: Boolean,
+
     /***
      * id of organization which created current promotion
      */
