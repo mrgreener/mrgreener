@@ -8,21 +8,21 @@ import java.sql.Timestamp
 class Client(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long? = null,
 
     @Column(nullable = false)
     val username: String,
 
     @Column(nullable = false)
-    val isAdmin: Boolean,
+    val isAdmin: Boolean = false,
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    val registered_on: Timestamp,
+    val registeredOn: Timestamp,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-    val promotionVouchersActivations: List<PromotionVoucherActivation>,
+    val promotionVouchersActivations: List<PromotionVoucherActivation>?,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-    val rewardVouchersActivations: List<RewardVoucherActivation>
+    val rewardVouchersActivations: List<RewardVoucherActivation>?
 )
