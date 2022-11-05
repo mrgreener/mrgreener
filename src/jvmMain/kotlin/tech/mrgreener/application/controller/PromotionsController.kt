@@ -22,7 +22,7 @@ fun addPromotion(
     name: String,
     description: String,
     rewardPoints: MoneyType,
-    shortDescription: String? = null,
+    shortDescription: String,
     pictureUrl: String? = null
 ): IdType {
     val promotion = Promotion(
