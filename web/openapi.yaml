@@ -3,6 +3,9 @@ info:
   title: MrGreener
   description: Loyalty program for green initiatives
   version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://api.mrgreener.tech/v1/api
   - url: http://localhost/v1/api
