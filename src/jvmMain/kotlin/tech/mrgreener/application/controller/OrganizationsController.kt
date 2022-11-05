@@ -57,6 +57,7 @@ fun getOrganizations(
     pageId: Int = 0,
 ): List<Organization> {
     var result = emptyList<Organization>()
+
     sessionFactory.inTransaction {
         val query = it.createQuery(
             "select org from Organization org",

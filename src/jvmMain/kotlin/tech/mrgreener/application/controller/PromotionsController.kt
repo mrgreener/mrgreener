@@ -114,6 +114,7 @@ fun getPromotionsForOrganization(
     pageId: Int = 0,
 ): List<Promotion> {
     var result = emptyList<Promotion>()
+
     sessionFactory.inTransaction {
         val query = it.createQuery(
             "select p from Promotion p where p.organization.id=:organizationId",
