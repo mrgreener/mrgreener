@@ -5,7 +5,7 @@ import java.io.File
 import java.sql.Timestamp
 
 @Entity
-@Table(name = "rewards")
+@Table(name = "Rewards")
 class Reward(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ class Reward(
      * id of organization which created current reward
      */
     @Column(nullable = false)
-    val organization_id: String,
+    val organizationId: String,
 
     @Column(nullable = true)
     val price: Long,
@@ -30,9 +30,12 @@ class Reward(
     val is_active: Boolean,
 
     @Column(nullable = false)
-    val picture_url: String,
+    val pictureUrl: String,
 
     @Column(name = "registration_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    val registrationDate: Timestamp
+    val registrationDate: Timestamp,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reward")
+    val vouchers: List<RewardVoucher>,
 )

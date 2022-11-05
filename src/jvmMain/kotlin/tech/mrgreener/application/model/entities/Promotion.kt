@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import java.sql.Timestamp
 
 @Entity
-@Table(name = "promotions")
+@Table(name = "Promotions")
 class Promotion(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +33,8 @@ class Promotion(
 
     @Column(name = "registration_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    val registrationDate: Timestamp
+    val registrationDate: Timestamp,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotion")
+    val vouchers: List<PromotionVoucher>,
 )

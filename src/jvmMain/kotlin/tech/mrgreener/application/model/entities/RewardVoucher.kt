@@ -4,23 +4,23 @@ import jakarta.persistence.*
 import java.sql.Timestamp
 
 @Entity
-@Table(name = "PromotionVouchers")
-class PromotionVoucher(
+@Table(name = "RewardVouchers")
+class RewardVoucher(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
     @Column(nullable = false)
-    val code: String,
+    val content: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promotion_id", referencedColumnName = "id")
-    val promotion: Promotion,
+    @JoinColumn(name = "reward_id", referencedColumnName = "id")
+    val reward: Reward,
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     val issuedOn: Timestamp,
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "voucher", optional = true)
-    val activation: PromotionVoucherActivation?
+    val activation: RewardVoucherActivation?
 )
