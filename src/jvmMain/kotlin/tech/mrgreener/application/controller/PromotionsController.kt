@@ -14,7 +14,9 @@ import java.util.*
 import kotlin.random.Random
 
 
+class PromotionNotFoundException(promotionId: IdType) : NotFoundException("Promotion $promotionId not found")
 class VoucherCodeNotFoundException(code: String) : NotFoundException("Voucher with code $code not found")
+class VoucherNotFoundException(voucherId: IdType) : NotFoundException("Voucher $voucherId not found")
 class UsedVoucherException(voucherId: IdType) : BadRequestException("Voucher $voucherId was already activated")
 
 fun addPromotion(
@@ -42,6 +44,14 @@ fun addPromotion(
     return promotion.id
 }
 
+fun getPromotionById(promotionId: IdType): Promotion {
+    var result: Promotion? = null
+    sessionFactory.inTransaction {
+        result = it.get(Promotion::class.java, promotionId);
+    }
+    return result ?: throw PromotionNotFoundException(promotionId)
+}
+
 fun generateCode() = (1..PROMOTION_VOUCHER_CODE_LENGTH).map {
     Random.nextInt(0, PROMOTION_VOUCHER_CODE_SYMBOLS.length).let { PROMOTION_VOUCHER_CODE_SYMBOLS[it] }
 }.joinToString("")
@@ -62,6 +72,14 @@ fun issueVoucher(
     }
 
     return voucher.id
+}
+
+fun getPromotionVoucherById(voucherId: IdType): PromotionVoucher {
+    var result: PromotionVoucher? = null
+    sessionFactory.inTransaction {
+        result = it.get(PromotionVoucher::class.java, voucherId);
+    }
+    return result ?: throw VoucherNotFoundException(voucherId)
 }
 
 fun redeemVoucher(
