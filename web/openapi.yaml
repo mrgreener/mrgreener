@@ -169,6 +169,48 @@ paths:
       responses:
         200:
           description: Successfully added
+  /buyVoucher:
+    post:
+      tags:
+        - Purchase API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoucherRequest"
+      description: Buys a new promotion voucher for given promotion
+      responses:
+        200:
+          description: Successfully added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromotionVoucher"
+      security:
+        - ApiKeyAuth: [ ]
+  /redeemVoucher:
+    get:
+      tags:
+        - Customer API
+      parameters:
+        - in: query
+          name: code
+          required: true
+          example: skibidi
+          schema:
+            type: string
+          description: Code for voucher redemption
+      responses:
+        200:
+          description: Redeemed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromotionVoucher"
+        400:
+          description: Error occured
+      security:
+        - BearerAuth: [ ]
 components:
   schemas:
     Profile:
@@ -312,14 +354,48 @@ components:
       minimum: 0
       maximum: 1
       description: 0 = declined, 1 = approved
+    PromotionVoucher:
+      properties:
+        code:
+          type: string
+          example: "YWJvYmE="
+        rewardPoints:
+          type: integer
+          example: 100
+        issuedOn:
+          type: string
+          format: datetime
+          example: "2022-11-06T04:00"
+      required:
+        - code
+    VoucherRequest:
+      properties:
+        rewardPoints:
+          type: integer
+          example: 100
+        promotion_id:
+          type: integer
+          example: 43
+      required:
+        - rewardPoints
+        - promotion_id
+
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
 tags:
   - name: Customer API
+    description: Methods to be accessed by customers front-end (web app / mobile app) to redeem vouchers, buy rewards
   - name: Org API
+    description: Methods to be used by organizations that create promotions, rewards
+  - name: Purchase API
+    description: Methods to be used by backends of the organizations to facilitate voucher issue and rewards selling
