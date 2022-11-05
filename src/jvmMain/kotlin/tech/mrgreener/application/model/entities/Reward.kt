@@ -23,7 +23,7 @@ class Reward(
     @Column(nullable = false)
     val organizationId: String,
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     val price: Long,
 
     @Column(nullable = false)
@@ -32,7 +32,7 @@ class Reward(
     @Column(nullable = false)
     val pictureUrl: String,
 
-    @Column(name = "registration_date", nullable = true)
+    @Column(name = "registration_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     val registrationDate: Timestamp,
 

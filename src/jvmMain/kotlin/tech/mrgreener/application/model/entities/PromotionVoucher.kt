@@ -13,6 +13,9 @@ class PromotionVoucher(
     @Column(nullable = false)
     val code: String,
 
+    @Column(nullable = false)
+    val rewardPoints: Long,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promotion_id", referencedColumnName = "id")
     val promotion: Promotion,

@@ -22,7 +22,7 @@ class Promotion(
     @Column(nullable = false)
     val organization_id: String,
 
-    @Column(name = "reward_points", nullable = true)
+    @Column(name = "reward_points", nullable = false)
     val rewardPoints: Long,
 
     @Column(nullable = false)
@@ -31,7 +31,7 @@ class Promotion(
     @Column(nullable = false)
     val picture_url: String,
 
-    @Column(name = "registration_date", nullable = true)
+    @Column(name = "registration_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     val registrationDate: Timestamp,
 
