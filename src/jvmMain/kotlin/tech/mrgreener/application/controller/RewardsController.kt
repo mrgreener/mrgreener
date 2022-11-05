@@ -112,3 +112,50 @@ fun buyReward(
         voucher = getRewardVoucherById(voucherId)
     )
 }
+
+
+fun getRewardsForOrganization(
+    organization: Organization,
+    pageSize: Int? = null,
+    pageId: Int = 0,
+): List<Reward> {
+    var result = emptyList<Reward>()
+    sessionFactory.inTransaction {
+        val query = it.createQuery(
+            "select r from Reward r where r.organization.id=:organizationId",
+            Reward::class.java
+        ).setParameter("organizationId", organization.id!!)
+
+        if (pageSize != null) {
+            val firstResult = pageId * pageSize;
+            query.firstResult = firstResult
+            query.maxResults = pageSize
+        }
+        result = query.resultList
+    }
+
+    return result
+}
+
+fun getRedeemedRewardVouchersForUser(
+    user: Client,
+    pageSize: Int? = null,
+    pageId: Int = 0,
+): List<RewardVoucher> {
+    var result = emptyList<RewardVoucher>()
+    sessionFactory.inTransaction {
+        val query = it.createQuery(
+            "select pva.voucher from PromotionVoucherActivation pva where pva.client.id=:userId",
+            RewardVoucher::class.java
+        ).setParameter("userId", user.id!!)
+
+        if (pageSize != null) {
+            val firstResult = pageId * pageSize;
+            query.firstResult = firstResult
+            query.maxResults = pageSize
+        }
+        result = query.resultList
+    }
+
+    return result
+}

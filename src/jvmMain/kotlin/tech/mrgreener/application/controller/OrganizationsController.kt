@@ -4,6 +4,7 @@ import tech.mrgreener.application.NotFoundException
 import tech.mrgreener.application.model.IdType
 import tech.mrgreener.application.model.entities.Client
 import tech.mrgreener.application.model.entities.Organization
+import tech.mrgreener.application.model.entities.Promotion
 import tech.mrgreener.application.model.sessionFactory
 import java.sql.Timestamp
 import java.util.*
@@ -48,4 +49,27 @@ fun getOrganizationById(organizationId: IdType): Organization {
     }
 
     return result ?: throw OrganizationNotFoundException(organizationId)
+}
+
+
+fun getOrganizations(
+    pageSize: Int? = null,
+    pageId: Int = 0,
+): List<Organization> {
+    var result = emptyList<Organization>()
+    sessionFactory.inTransaction {
+        val query = it.createQuery(
+            "select org from Organization org",
+            Organization::class.java
+        )
+
+        if (pageSize != null) {
+            val firstResult = pageId * pageSize;
+            query.firstResult = firstResult
+            query.maxResults = pageSize
+        }
+        result = query.resultList
+    }
+
+    return result
 }
