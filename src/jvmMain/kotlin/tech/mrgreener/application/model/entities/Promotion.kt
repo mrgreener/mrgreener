@@ -10,7 +10,7 @@ import java.sql.Timestamp
 class Promotion(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: IdType = -1,
+    val id: IdType? = null,
 
     @Column(nullable = false)
     val name: String,

@@ -9,7 +9,7 @@ import java.sql.Timestamp
 class Organization(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: IdType = -1,
+    val id: IdType? = null,
 
     @Column(unique = true, nullable = false)
     val authId: String,
