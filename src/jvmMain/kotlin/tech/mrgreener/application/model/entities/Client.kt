@@ -27,10 +27,10 @@ class Client(
     @Temporal(TemporalType.TIMESTAMP)
     val registeredOn: Timestamp,
 
-    @Column
+    @Column(nullable = true)
     val bio: String? = "Hello, I am new here!",
 
-    @Column
+    @Column(nullable = true)
     val avatarUrl: String? = null,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
