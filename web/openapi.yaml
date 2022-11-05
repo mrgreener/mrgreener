@@ -21,7 +21,7 @@ paths:
               schema:
                 type: string
                 example: OK
-  /profiles/{username}/get:
+  /profiles/{username}/:
     get:
       tags:
         - Customer API

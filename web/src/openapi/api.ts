@@ -319,10 +319,10 @@ export const CustomerAPIApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        profilesUsernameGetGet: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        profilesUsernameGet: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
-            assertParamExists('profilesUsernameGetGet', 'username', username)
-            const localVarPath = `/profiles/{username}/get`
+            assertParamExists('profilesUsernameGet', 'username', username)
+            const localVarPath = `/profiles/{username}/`
                 .replace(`{${"username"}}`, encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -452,8 +452,8 @@ export const CustomerAPIApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async profilesUsernameGetGet(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.profilesUsernameGetGet(username, options);
+        async profilesUsernameGet(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.profilesUsernameGet(username, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -508,8 +508,8 @@ export const CustomerAPIApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        profilesUsernameGetGet(username: string, options?: any): AxiosPromise<Profile> {
-            return localVarFp.profilesUsernameGetGet(username, options).then((request) => request(axios, basePath));
+        profilesUsernameGet(username: string, options?: any): AxiosPromise<Profile> {
+            return localVarFp.profilesUsernameGet(username, options).then((request) => request(axios, basePath));
         },
         /**
          * Gets all active&verified promotions
@@ -566,8 +566,8 @@ export class CustomerAPIApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomerAPIApi
      */
-    public profilesUsernameGetGet(username: string, options?: AxiosRequestConfig) {
-        return CustomerAPIApiFp(this.configuration).profilesUsernameGetGet(username, options).then((request) => request(this.axios, this.basePath));
+    public profilesUsernameGet(username: string, options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).profilesUsernameGet(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
