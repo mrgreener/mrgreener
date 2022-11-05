@@ -15,8 +15,8 @@ class RewardVoucherNotFoundException(voucherId: IdType) : NotFoundException("Rew
 class RewardUsedVoucherException(voucherId: IdType) :
     BadRequestException("Reward voucher $voucherId was already activated")
 
-class NotEnoughMoneyForRewardVoucherException(voucherId: IdType) :
-    BadRequestException("Not enough money to buy reward voucher $voucherId was already activated")
+class NotEnoughMoneyForRewardException(rewardId: IdType) :
+    BadRequestException("Not enough money to buy reward  $rewardId")
 
 fun addReward(
     organization: Organization,
@@ -100,7 +100,11 @@ fun buyReward(
     user: Client,
     reward: Reward
 ) {
-    // TODO check money
+    val balance = getUserBalance(userId = user.id!!)
+
+    if (balance < reward.price) {
+        throw NotEnoughMoneyForRewardException(reward.id!!)
+    }
 
     val voucherId = issueRewardVoucher(reward);
     redeemRewardVoucher(

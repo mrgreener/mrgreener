@@ -3,6 +3,7 @@ package tech.mrgreener.application.controller
 import tech.mrgreener.application.NotFoundException
 import tech.mrgreener.application.PermissionDeniedException
 import tech.mrgreener.application.model.IdType
+import tech.mrgreener.application.model.MoneyType
 import tech.mrgreener.application.model.entities.Client
 import tech.mrgreener.application.model.sessionFactory
 import java.sql.Timestamp
@@ -45,4 +46,38 @@ fun assertExistsAndAdmin(userId: Long) {
             throw NotAnAdminException(userId)
         }
     }
+}
+
+fun getUserTotalIncome(userId: IdType): MoneyType {
+    val user = getUserById(userId)
+    var result: MoneyType? = null
+
+    sessionFactory.inTransaction {
+        result = it.createQuery(
+            "select sum(a.voucher.rewardPoints) " +
+                    "from PromotionVoucherActivation a where a.client.id=:clientId",
+            MoneyType::class.java
+        ).setParameter("clientId", userId).singleResult
+    }
+
+    return result!!
+}
+
+fun getUserTotalSpending(userId: IdType): MoneyType {
+    val user = getUserById(userId)
+    var result: MoneyType? = null
+
+    sessionFactory.inTransaction {
+        result = it.createQuery(
+            "select sum(a.voucher.reward.price) " +
+                    "from RewardVoucherActivation a where a.client.id=:clientId",
+            MoneyType::class.java
+        ).setParameter("clientId", userId).singleResult
+    }
+
+    return result!!
+}
+
+fun getUserBalance(userId: IdType): MoneyType {
+    return getUserTotalIncome(userId) - getUserTotalSpending(userId)
 }
