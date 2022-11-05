@@ -11,3 +11,7 @@ open class PermissionDeniedException(error_message: String) :
 
 open class NotFoundException(error_message: String) :
     MrGreenException(error_message = error_message, error_code = 404)
+
+
+open class BadRequestException(error_message: String) :
+    MrGreenException(error_message = error_message, error_code = 400)

@@ -27,5 +27,5 @@ class PromotionVoucher(
     val issuedOn: Timestamp,
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "voucher", optional = true)
-    val activation: PromotionVoucherActivation?
+    val activation: PromotionVoucherActivation? = null
 )

@@ -1,0 +1,4 @@
+package tech.mrgreener.application
+
+const val PROMOTION_VOUCHER_CODE_LENGTH = 12
+const val PROMOTION_VOUCHER_CODE_SYMBOLS = "abcdefghijklmnoABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
