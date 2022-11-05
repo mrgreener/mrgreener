@@ -12,7 +12,7 @@ class PromotionVoucherActivation(
     val id: IdType = -1,
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promotion_voucher_id", referencedColumnName = "id")
+    @JoinColumn(name = "promotion_voucher_id", referencedColumnName = "id", unique = true)
     val voucher: PromotionVoucher,
 
     @ManyToOne(fetch = FetchType.LAZY)
