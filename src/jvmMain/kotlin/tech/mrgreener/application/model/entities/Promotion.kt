@@ -19,7 +19,7 @@ class Promotion(
     val description: String,
 
     @Column(name = "short_description", nullable = true)
-    val shortDescription: String? = null,
+    val shortDescription: String,
 
     @Column(nullable = false)
     val verified: Boolean = false,
