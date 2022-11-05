@@ -16,7 +16,7 @@ class Client(
     @Column(nullable = false)
     val isAdmin: Boolean = false,
 
-    @Column(nullable = false)
+    @Column(name = "registered_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     val registeredOn: Timestamp,
 

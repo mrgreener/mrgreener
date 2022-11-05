@@ -17,6 +17,9 @@ class Reward(
     @Column(nullable = false, columnDefinition = "text")
     val description: String,
 
+    @Column(name = "short_description", nullable = true)
+    val shortDescription: String,
+
     @Column(nullable = false)
     val verified: Boolean,
 
@@ -29,8 +32,8 @@ class Reward(
     @Column(nullable = false)
     val price: Long,
 
-    @Column(nullable = false)
-    val is_active: Boolean,
+    @Column(name = "is_active", nullable = false)
+    val isActive: Boolean,
 
     @Column(nullable = false)
     val pictureUrl: String,
