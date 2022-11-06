@@ -59,6 +59,17 @@ fun getUserByAuthId(authId: String): Client {
     return result ?: throw UserAuthIdNotFoundException(authId)
 }
 
+
+fun getOrCreateByAuthId(authId: String): Client {
+    return try {
+        getUserByAuthId(authId)
+    } catch (exception: UserAuthIdNotFoundException) {
+        addNewUser(authId, authId, authId)  // FIXME("Stupid")
+        getUserByAuthId(authId)
+    }
+}
+
+
 fun assertExistsAndAdmin(userId: Long) {
     sessionFactory.inTransaction {
         val user = it.get(Client::class.java, userId) ?: throw UserNotFoundException(userId)
