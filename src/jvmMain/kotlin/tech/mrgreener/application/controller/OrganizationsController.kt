@@ -1,6 +1,7 @@
 package tech.mrgreener.application.controller
 
 import tech.mrgreener.application.NotFoundException
+import tech.mrgreener.application.PermissionDeniedException
 import tech.mrgreener.application.model.IdType
 import tech.mrgreener.application.model.entities.Organization
 import tech.mrgreener.application.model.sessionFactory
@@ -12,6 +13,9 @@ class OrganizationNotFoundException(organizationId: IdType) :
 
 class OrganizationAuthIdNotFoundException(authId: String) :
     NotFoundException("Organization with authId $authId not found")
+
+class InvalidOrganizationApiKeyException(apiKey: String) :
+    PermissionDeniedException("Api key $apiKey is invalid")
 
 fun addOrganization(
     name: String,
@@ -59,6 +63,15 @@ fun getOrganizationByAuthId(authId: String): Organization {
             .setParameter("authId", authId).singleResultOrNull
     }
     return result ?: throw OrganizationAuthIdNotFoundException(authId)
+}
+
+fun getOrganizationByApiKey(apiKey: String): Organization {
+    var result: Organization? = null
+    sessionFactory.inTransaction {
+        result = it.createQuery("select org from Organization org where org.apiKey=:apiKey", Organization::class.java)
+            .setParameter("apiKey", apiKey).singleResultOrNull
+    }
+    return result ?: throw InvalidOrganizationApiKeyException(apiKey)
 }
 
 fun getOrganizations(
