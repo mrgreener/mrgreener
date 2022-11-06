@@ -428,7 +428,7 @@ components:
       properties:
         content:
           type: string
-          format: "Promo-code: JACOBSHACK22"
+          example: "JACOBSHACK22"
         issuedOn:
           type: string
           format: datetime

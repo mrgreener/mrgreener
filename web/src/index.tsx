@@ -25,6 +25,7 @@ import ProfilePage from "./components/Profile/Profile";
 import OrganisationPromotionsPage from "./components/OrganizationPromotions/OrganisationPromotions";
 import OrganisationRewardsPage from "./components/OrganizationRewards/OrganizationRewards";
 import UsePage from "./components/UsePage/UsePage";
+import BuyRewardPage from "./components/BuyRewardPage/BuyRewardPage";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
       {
         path: "/organization/:id/rewards",
         element: <OrganisationRewardsPage/>
+      },
+      {
+        path: "/buy_reward/:id",
+        element: <BuyRewardPage/>
       }
     ],
   }
