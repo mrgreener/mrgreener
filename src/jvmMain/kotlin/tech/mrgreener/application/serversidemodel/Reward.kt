@@ -29,16 +29,16 @@ import tech.mrgreener.application.model.entities.Reward
  */
 data class Reward(
     val name: String,
-    val descriptionShort: String,
-    val descriptionLong: String,
-    val pricePoints: Long,
-    val companyName: String,
+    val description_short: String,
+    val description_long: String,
+    val price_points: Long,
+    val company_name: String,
     val verified: Boolean,
-    val isActive: Boolean,
+    val is_active: Boolean,
     /* Internal reward identifier */
-    val rewardId: Long? = null,
-    val pictureUrl: String? = null,
-    val companyAvatarUrl: String? = null
+    val reward_id: Long? = null,
+    val picture_url: String? = null,
+    val company_avatar_url: String? = null
 ) {
     constructor(rewardObj: Reward) : this(
         rewardObj.name,

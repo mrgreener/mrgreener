@@ -27,11 +27,11 @@ data class Organization(
     val name: String,
     val username: String,
     val description: String,
-    val contactEmail: String,
-    val registeredOn: String? = null,
-    val avatarUrl: String? = null,
+    val contact_email: String,
+    val registered_on: String? = null,
+    val avatar_url: String? = null,
     val location: String? = null,
-    val siteUrl: String? = null
+    val site_url: String? = null
 ) {
     constructor (organizationObj: tech.mrgreener.application.model.entities.Organization) : this(
         organizationObj.name,

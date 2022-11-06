@@ -24,12 +24,12 @@ import tech.mrgreener.application.model.entities.Client
  * @param avatarUrl
  */
 data class Profile(
-    val registeredOn: String,
+    val registered_on: String,
     val name: String,
     val description: String,
     val points: Long,
     val username: String? = null,
-    val avatarUrl: String? = null
+    val avatar_url: String? = null
 ) {
     constructor(clientObj: Client, balance: Long) : this(
         clientObj.registeredOn.toString(),

@@ -18,7 +18,7 @@ package tech.mrgreener.application.serversidemodel
  * @param promotionId 
  */
 data class VoucherRequest (
-    val rewardPoints: Int,
-    val promotionId: Int
+    val reward_points: Int,
+    val promotion_id: Int
 ) 
 

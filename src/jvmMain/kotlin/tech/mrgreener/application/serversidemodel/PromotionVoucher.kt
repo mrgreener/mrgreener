@@ -22,8 +22,8 @@ import tech.mrgreener.application.model.entities.PromotionVoucher
  */
 data class PromotionVoucher(
     val code: String,
-    val rewardPoints: Long? = null,
-    val issuedOn: String? = null
+    val reward_points: Long? = null,
+    val issued_on: String? = null
 ) {
     constructor(promotionVoucherObj: PromotionVoucher) : this(
         promotionVoucherObj.code,
