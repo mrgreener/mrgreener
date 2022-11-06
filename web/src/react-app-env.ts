@@ -2,7 +2,7 @@
 
 export const API_ENDPOINT =
   process.env.REACT_APP_ENDPOINT ??
-  "https://webhook.site/f0c54420-63a3-4a60-9c9b-468d9e6fa628";
+  "https://api.mrgreener.tech/v1/api";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyByjnsdLW7Pyo4l36T_rWQcuHBpuKD2NNw",
