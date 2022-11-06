@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import logo from "./img/logo.svg";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import {Link, NavLink, Outlet} from "react-router-dom";
 
 import "./App.css";
-import {Button, Image, Placeholder} from "react-bootstrap";
-import { getAuth, User } from "firebase/auth";
-import {Api, auth} from "./index";
+import {Image, Placeholder} from "react-bootstrap";
+import {User} from "firebase/auth";
+import {auth} from "./index";
 import {Profile} from "./openapi";
 
 let activeClassName = "active";
@@ -25,7 +25,7 @@ function App(this: any) {
         updateLoaded(true);
         if (user_ == null) return undefined;
         else {
-          Api.getMeGet().then(res => {updateProfile(res.data);});
+          //Api.getMeGet().then(res => {updateProfile(res.data);});
           return user_;
         }
       });

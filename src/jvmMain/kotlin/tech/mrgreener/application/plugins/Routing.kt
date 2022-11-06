@@ -22,25 +22,24 @@ fun Application.configureRouting() {
         }
 
         // CUSTOMER API
-        authenticate {
-            get("/v1/api/profiles/{username}") {
-                val username = call.parameters["username"] ?: return@get call.respondText(
-                    "Missing username",
-                    status = HttpStatusCode.BadRequest
-                )
+        get("/v1/api/profiles/{username}") {
+            val username = call.parameters["username"] ?: return@get call.respondText(
+                "Missing username",
+                status = HttpStatusCode.BadRequest
+            )
 
-                try {
-                    val user = getUserByUsername(username)
-                    val profile = Profile(user, getUserBalance(user.id!!))
-                    call.respond(profile)
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
-                    )
-                }
+            try {
+                val user = getUserByUsername(username)
+                val profile = Profile(user, getUserBalance(user.id!!))
+                call.respond(profile)
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
+                )
             }
         }
+
 
         authenticate {
             get("/v1/api/getMe") {
@@ -58,51 +57,49 @@ fun Application.configureRouting() {
             }
         }
 
-        authenticate {
-            get("/v1/api/promotions/all") {
-                val organizationId = call.request.queryParameters["org_id"]?.toLong() ?: return@get call.respondText(
-                    "Missing username",
-                    status = HttpStatusCode.BadRequest
-                )
+        get("/v1/api/promotions/all") {
+            val organizationId = call.request.queryParameters["org_id"]?.toLong() ?: return@get call.respondText(
+                "Missing username",
+                status = HttpStatusCode.BadRequest
+            )
 
-                try {
-                    val organization = getOrganizationById(organizationId)
-                    call.respond(
-                        getPromotionsForOrganization(organization).map {
-                            Promotion(it, organization)
-                        }
-                    )
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
-                    )
-                }
+            try {
+                val organization = getOrganizationById(organizationId)
+                call.respond(
+                    getPromotionsForOrganization(organization).map {
+                        Promotion(it, organization)
+                    }
+                )
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
+                )
             }
         }
 
-        authenticate {
-            get("/v1/api/rewards/all") {
-                val organizationId = call.request.queryParameters["org_id"]?.toLong() ?: return@get call.respondText(
-                    "Missing username",
-                    status = HttpStatusCode.BadRequest
+
+        get("/v1/api/rewards/all") {
+            val organizationId = call.request.queryParameters["org_id"]?.toLong() ?: return@get call.respondText(
+                "Missing username",
+                status = HttpStatusCode.BadRequest
+            )
+
+
+            try {
+                call.respond(
+                    getRewardsForOrganization(getOrganizationById(organizationId)).map {
+                        Reward(it)
+                    }
                 )
-
-
-                try {
-                    call.respond(
-                        getRewardsForOrganization(getOrganizationById(organizationId)).map {
-                            Reward(it)
-                        }
-                    )
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
-                    )
-                }
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
+                )
             }
         }
+
 
         authenticate {
             post("/v1/api/buyReward/{reward_id}") {
@@ -146,59 +143,56 @@ fun Application.configureRouting() {
             }
         }
 
-        authenticate {
-            get("/v1/api/organizations/all") {
-                try {
-                    call.respond(getOrganizations().map {
-                        Organization(it)
-                    })
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
-                    )
-                }
-            }
-        }
-
-        authenticate {
-            get("/v1/api/rewards/get") {
-                val rewardId = call.parameters["reward_id"]?.toLong() ?: return@get call.respondText(
-                    "Missing reward_id",
-                    status = HttpStatusCode.BadRequest
+        get("/v1/api/organizations/all") {
+            try {
+                call.respond(getOrganizations().map {
+                    Organization(it)
+                })
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
                 )
-
-                try {
-                    val reward = getRewardById(rewardId)
-                    call.respond(Reward(reward))
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
-                    )
-                }
             }
         }
 
-        authenticate {
-            get("/v1/api/promotions/get") {
-                val promotionId = call.parameters["promotion_id"]?.toLong() ?: return@get call.respondText(
-                    "Missing promotion_id",
-                    status = HttpStatusCode.BadRequest
+
+        get("/v1/api/rewards/get") {
+            val rewardId = call.parameters["reward_id"]?.toLong() ?: return@get call.respondText(
+                "Missing reward_id",
+                status = HttpStatusCode.BadRequest
+            )
+
+            try {
+                val reward = getRewardById(rewardId)
+                call.respond(Reward(reward))
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
                 )
-
-                try {
-                    val promotion = getPromotionById(promotionId)
-                    val organisation = getOrganizationById(promotion.organization.id!!)
-                    call.respond(Promotion(promotion, organisation))
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
-                    )
-                }
             }
         }
+
+
+        get("/v1/api/promotions/get") {
+            val promotionId = call.parameters["promotion_id"]?.toLong() ?: return@get call.respondText(
+                "Missing promotion_id",
+                status = HttpStatusCode.BadRequest
+            )
+
+            try {
+                val promotion = getPromotionById(promotionId)
+                val organisation = getOrganizationById(promotion.organization.id!!)
+                call.respond(Promotion(promotion, organisation))
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
+                )
+            }
+        }
+
 
         // ORGANIZATION API
 

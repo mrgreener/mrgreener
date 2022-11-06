@@ -3,7 +3,6 @@ package tech.mrgreener.application.model.entities
 import jakarta.persistence.*
 import tech.mrgreener.application.model.IdType
 import tech.mrgreener.application.model.MoneyType
-import java.io.File
 import java.sql.Timestamp
 
 @Entity
@@ -26,7 +25,7 @@ class Reward(
     val shortDescription: String? = null,
 
     @Column(nullable = false)
-    val verified: Boolean = false,
+    val verified: Boolean = true,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", referencedColumnName = "id")

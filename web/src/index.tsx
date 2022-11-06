@@ -10,7 +10,7 @@ import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
 
 import NotFound from "./components/NotFound/NotFound";
-import {CustomerAPIApi, DefaultApi} from "./openapi";
+import {CustomerAPIApi} from "./openapi";
 import {API_ENDPOINT, firebaseConfig} from "./react-app-env";
 
 import axios from "axios";
@@ -22,6 +22,7 @@ import RedeemPage from "./components/RedeemPage/RedeemPage";
 import RewardDetail from "./components/RewardDetail/RewardDetail";
 import PromotionDetail from "./components/PromotionDetail/PromotionDetail";
 import ProfilePage from "./components/Profile/Profile";
+import OrganisationPromotionsPage from "./components/OrganizationPromotions/OrganisationPromotions";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: "/profile/:id",
         element: <ProfilePage/>
+      },
+      {
+        path: "/organization/:id/promotions",
+        element: <OrganisationPromotionsPage/>
       }
     ],
   }

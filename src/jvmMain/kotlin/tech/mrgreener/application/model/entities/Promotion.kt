@@ -22,7 +22,7 @@ class Promotion(
     val shortDescription: String? = null,
 
     @Column(nullable = false)
-    val verified: Boolean = false,
+    val verified: Boolean = true,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", referencedColumnName = "id")

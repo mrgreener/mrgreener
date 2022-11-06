@@ -2,7 +2,7 @@
 
 export const API_ENDPOINT =
   process.env.REACT_APP_ENDPOINT ??
-  "https://api.mrgreener.tech/v1/api";
+  "http://localhost:8080/v1/api";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyByjnsdLW7Pyo4l36T_rWQcuHBpuKD2NNw",
