@@ -193,6 +193,26 @@ fun Application.configureRouting() {
             }
         }
 
+        authenticate {
+            get("/v1/api/rewardVouchers/my") {
+                try {
+                    val authId = call.uid()
+                    val user = getUserByAuthId(authId)
+
+                    call.respond(
+                        getRedeemedRewardVouchersForUser(user).map {
+                            RewardVoucher(it)
+                        }
+                    )
+                } catch (e: MrGreenerException) {
+                    call.respondText(
+                        e.error_message,
+                        status = HttpStatusCode.fromValue(e.error_code)
+                    )
+                }
+            }
+        }
+
 
         // ORGANIZATION API
 
@@ -289,45 +309,43 @@ fun Application.configureRouting() {
 
         // PURCHASE API
 
-        authenticate {
-            post("/v1/api/buyVoucher") {
-                try {
-                    val organizationKey = call.request.header("X-API-KEY") ?: return@post call.respondText(
-                        "Missing X-API-KEY header",
-                        status = HttpStatusCode.Unauthorized
-                    )
-
-                    val organization = getOrganizationByApiKey(organizationKey)
-                    val jsonData = call.receive<JsonObject>()
-
-                    val rewardsPoints = jsonData["rewardPoints"]?.jsonPrimitive?.long
-                    val promotionId = jsonData["promotion_id"]?.jsonPrimitive?.long ?: return@post call.respondText(
+        get("/v1/api/buyVoucher") {
+            try {
+                val organizationKey = call.request.queryParameters["api_key"] ?: return@get call.respondText(
+                    "Missing api_key",
+                    status = HttpStatusCode.Unauthorized
+                )
+                val promotionId =
+                    call.request.queryParameters["promotion_id"]?.toLong() ?: return@get call.respondText(
                         "promotion_id is missing",
                         status = HttpStatusCode.BadRequest
                     )
 
-                    val promotion = getPromotionById(promotionId)
+                val rewardsPoints = call.request.queryParameters["reward_points"]?.toLong()
 
-                    if (promotion.organization.id != organization.id) {
-                        return@post call.respondText(
-                            "Access denied",
-                            status = HttpStatusCode.Forbidden
-                        )
-                    }
+                val organization = getOrganizationByApiKey(organizationKey)
+                val promotion = getPromotionById(promotionId)
 
-                    val voucherId = issuePromotionVoucher(
-                        promotion = promotion,
-                        rewardPoints = rewardsPoints ?: promotion.rewardPoints
-                    )
-
-                    call.respond(PromotionVoucher(getPromotionVoucherById(voucherId)))
-                } catch (e: MrGreenerException) {
-                    call.respondText(
-                        e.error_message,
-                        status = HttpStatusCode.fromValue(e.error_code)
+                if (promotion.organization.id != organization.id) {
+                    return@get call.respondText(
+                        "Access denied",
+                        status = HttpStatusCode.Forbidden
                     )
                 }
+
+                val voucherId = issuePromotionVoucher(
+                    promotion = promotion,
+                    rewardPoints = rewardsPoints ?: promotion.rewardPoints
+                )
+
+                call.respond(PromotionVoucher(getPromotionVoucherById(voucherId)))
+            } catch (e: MrGreenerException) {
+                call.respondText(
+                    e.error_message,
+                    status = HttpStatusCode.fromValue(e.error_code)
+                )
             }
+
         }
     }
 }
