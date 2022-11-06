@@ -15,7 +15,7 @@ function RewardDetail() {
 
   // load all elements
   useEffect(() => {
-    Api.rewardsAllGet().then((res) => {
+    Api.rewardsAllGet(1).then((res) => {
       // TODO: get single
       const found_group = res.data.find((val) => {
         return val.reward_id === reward_id;

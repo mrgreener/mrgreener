@@ -21,6 +21,7 @@ import SpendPage from "./components/SpendPage/SpendPage";
 import RedeemPage from "./components/RedeemPage/RedeemPage";
 import RewardDetail from "./components/RewardDetail/RewardDetail";
 import PromotionDetail from "./components/PromotionDetail/PromotionDetail";
+import ProfilePage from "./components/Profile/Profile";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: "/promotion/:id",
         element: <PromotionDetail/>
+      },
+      {
+        path: "/profile/:id",
+        element: <ProfilePage/>
       }
     ],
   }

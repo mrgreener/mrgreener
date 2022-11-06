@@ -10,7 +10,7 @@ function EarnPage() {
 
   // load all groups
   useEffect(() => {
-    Api.promotionsAllGet().then((res) => {
+    Api.promotionsAllGet(1).then((res) => {
       const objs = res.data.map((promo) => PromotionItem({ promotion: promo }));
       updatePromotions(objs);
     });

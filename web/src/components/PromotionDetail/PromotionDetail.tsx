@@ -15,7 +15,7 @@ function PromotionDetail() {
 
   // load all elements
   useEffect(() => {
-    Api.promotionsAllGet().then((res) => {
+    Api.promotionsAllGet(566).then((res) => {
       // TODO: get single
       const found_group = res.data.find((val) => {
         return val.promotion_id === promotion_id;

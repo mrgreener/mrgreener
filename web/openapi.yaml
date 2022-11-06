@@ -235,6 +235,50 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Organization"
+  /rewards/get:
+    get:
+      tags:
+        - Customer API
+      parameters:
+        - in: query
+          name: reward_id
+          required: true
+          example: 42
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Reward retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reward"
+        400:
+          description: Bad request
+      security:
+        - BearerAuth: [ ]
+  /promotions/get:
+    get:
+      tags:
+        - Customer API
+      parameters:
+        - in: query
+          name: promotion_id
+          required: true
+          example: 21
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Promotion retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Promotion"
+        400:
+          description: Bad request
+      security:
+        - BearerAuth: [ ]
 components:
   schemas:
     Profile:
