@@ -486,10 +486,13 @@ export const CustomerAPIApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * Gets all active&verified promotions
+         * @param {number} orgId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        promotionsAllGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        promotionsAllGet: async (orgId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orgId' is not null or undefined
+            assertParamExists('promotionsAllGet', 'orgId', orgId)
             const localVarPath = `/promotions/all`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -505,6 +508,10 @@ export const CustomerAPIApiAxiosParamCreator = function (configuration?: Configu
             // authentication BearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (orgId !== undefined) {
+                localVarQueryParameter['org_id'] = orgId;
+            }
 
 
     
@@ -648,11 +655,12 @@ export const CustomerAPIApiFp = function(configuration?: Configuration) {
         },
         /**
          * Gets all active&verified promotions
+         * @param {number} orgId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async promotionsAllGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Promotion>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.promotionsAllGet(options);
+        async promotionsAllGet(orgId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Promotion>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promotionsAllGet(orgId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -722,11 +730,12 @@ export const CustomerAPIApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * Gets all active&verified promotions
+         * @param {number} orgId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        promotionsAllGet(options?: any): AxiosPromise<Array<Promotion>> {
-            return localVarFp.promotionsAllGet(options).then((request) => request(axios, basePath));
+        promotionsAllGet(orgId: number, options?: any): AxiosPromise<Array<Promotion>> {
+            return localVarFp.promotionsAllGet(orgId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -801,12 +810,13 @@ export class CustomerAPIApi extends BaseAPI {
 
     /**
      * Gets all active&verified promotions
+     * @param {number} orgId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomerAPIApi
      */
-    public promotionsAllGet(options?: AxiosRequestConfig) {
-        return CustomerAPIApiFp(this.configuration).promotionsAllGet(options).then((request) => request(this.axios, this.basePath));
+    public promotionsAllGet(orgId: number, options?: AxiosRequestConfig) {
+        return CustomerAPIApiFp(this.configuration).promotionsAllGet(orgId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

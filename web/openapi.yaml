@@ -64,6 +64,13 @@ paths:
       tags:
         - Customer API
       description: Gets all active&verified promotions
+      parameters:
+        - in: query
+          name: org_id
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         200:
           description: Successfully got all promotions
