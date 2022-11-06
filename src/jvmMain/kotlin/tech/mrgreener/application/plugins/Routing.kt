@@ -4,12 +4,9 @@ import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
-import tech.mrgreener.application.MrGreenException
-import tech.mrgreener.application.controller.getUserBalance
-import tech.mrgreener.application.controller.getUserByUsername
+import io.ktor.util.*
+import tech.mrgreener.application.controller.*
 import tech.mrgreener.application.serversidemodel.Profile
 import tech.mrgreener.application.utils.uid
 
@@ -34,18 +31,45 @@ fun Application.configureRouting() {
         authenticate {
             get("/v1/api/getMe") {
                 val authId = call.uid()
-                val user = TODO(authId)
+                val user = getOrCreateByAuthId(authId)
                 val profile = Profile(user, getUserBalance(user.id!!))
                 call.respond(profile)
             }
         }
 
-        //        authenticate {
-//        get("/v1/api/getMe") {
-//            TODO("GET FROM AUTH")
-//            val profile = Profile(user, getUserBalance(user.id!!))
-//            call.respond(profile)
-//        }
-//        }
+        authenticate {
+            get("/v1/api/promotions/all") {
+                TODO("Get all promotions")
+            }
+        }
+
+        authenticate {
+            get("/v1/api/rewards/all") {
+                TODO("Get all rewards")
+            }
+        }
+
+        authenticate {
+            post("/v1/api/buyReward/{reward_id}") {
+                val rewardId = call.parameters["reward_id"] ?: return@post call.respondText(
+                    "Missing reward_id",
+                    status = HttpStatusCode.BadRequest
+                )
+                TODO("Try to buy")
+            }
+        }
+
+        authenticate {
+            get("/v1/api/redeemVoucher") {
+                val code: String = call.attributes.getOrNull(AttributeKey("code")) ?: return@get call.respondText(
+                    "Missing voucher code",
+                    status = HttpStatusCode.BadRequest
+                )
+                val authId = call.uid()
+                val client = getOrCreateByAuthId(authId)
+                redeemPromotionVoucher(client, code)
+                call.respondText("OK")
+            }
+        }
     }
 }
