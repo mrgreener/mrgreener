@@ -5,11 +5,11 @@ import {
   getAuth,
   GoogleAuthProvider,
 } from "firebase/auth";
+import {auth} from "../../index";
 
 interface LoginPageProps {}
 
 function LoginPage() {
-  const auth = getAuth();
   auth.setPersistence(browserSessionPersistence);
 
   // Configure FirebaseUI.
@@ -26,7 +26,7 @@ function LoginPage() {
     <div>
       <h1>My App</h1>
       <p>Please sign-in:</p>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={getAuth()} />
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
     </div>
   );
 }

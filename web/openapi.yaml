@@ -64,6 +64,13 @@ paths:
       tags:
         - Customer API
       description: Gets all active&verified promotions
+      parameters:
+        - in: query
+          name: org_id
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         200:
           description: Successfully got all promotions
@@ -79,7 +86,14 @@ paths:
     get:
       tags:
         - Customer API
-      description: Lists all active&verified rewards
+      description: Lists all active&verified rewards of an organization
+      parameters:
+        - in: query
+          name: org_id
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         200:
           description: Successfully listed
@@ -95,7 +109,7 @@ paths:
     post:
       tags:
         - Customer API
-      description: Attempts to buy a voucher
+      description: Attempts to buy a reward voucher
       parameters:
         - in: path
           name: reward_id
@@ -199,16 +213,70 @@ paths:
           example: skibidi
           schema:
             type: string
-          description: Code for voucher redemption
+          description: Code for promotion voucher redemption
       responses:
         200:
-          description: Redeemed
+          description: Promotion voucher Redeemed
+        400:
+          description: Bad request
+      security:
+        - BearerAuth: [ ]
+  /organizations/all:
+    get:
+      tags:
+        - Customer API
+      description: Gets all verified organizations
+      responses:
+        200:
+          description: Successfully listed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromotionVoucher"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Organization"
+  /rewards/get:
+    get:
+      tags:
+        - Customer API
+      parameters:
+        - in: query
+          name: reward_id
+          required: true
+          example: 42
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Reward retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reward"
         400:
-          description: Error occured
+          description: Bad request
+      security:
+        - BearerAuth: [ ]
+  /promotions/get:
+    get:
+      tags:
+        - Customer API
+      parameters:
+        - in: query
+          name: promotion_id
+          required: true
+          example: 21
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Promotion retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Promotion"
+        400:
+          description: Bad request
       security:
         - BearerAuth: [ ]
 components:
@@ -248,9 +316,6 @@ components:
         promotion_id:
           type: integer
           example: 21
-        price_string:
-          type: string
-          example: "$3"
         picture_url:
           type: string
           format: url
@@ -264,6 +329,10 @@ components:
         reward_points:
           type: integer
           example: 10
+        organization_id:
+          type: integer
+          example: 566
+          description: Internal organization id
         company_name:
           type: string
           example: Avocado Shop
@@ -286,7 +355,6 @@ components:
           example: true
       required:
         - name
-        - price_string
         - description_long
         - description_short
         - reward_points
@@ -316,6 +384,9 @@ components:
         price_points:
           type: integer
           example: 3000
+        organization_id:
+          type: integer
+          example: 566
         company_name:
           type: string
           example: Bike Shop
@@ -377,8 +448,42 @@ components:
           type: integer
           example: 43
       required:
-        - rewardPoints
         - promotion_id
+    Organization:
+      properties:
+        name:
+          type: string
+          example: "Avocado Shop"
+        username:
+          type: string
+          example: "avocadoshop"
+        registeredOn:
+          type: string
+          format: datetime
+          example: "2022-11-06T00:49"
+        description:
+          type: string
+          example: Best Avocado Shop in the town
+        avatarUrl:
+          type: string
+          format: url
+          example: "https://imgmedia.lbb.in/media/2019/11/5dcae73a53703c2f98a1da63_1573578554772.jpg"
+        location:
+          type: string
+          example: "Campus Ring 1, Bremen, Germany"
+        siteUrl:
+          type: string
+          format: url
+          example: "https://www.avocadostore.de"
+        contactEmail:
+          type: string
+          format: email
+          example: "inbox@avocadostore.de"
+      required:
+        - name
+        - username
+        - description
+        - contactEmail
 
   securitySchemes:
     BearerAuth:

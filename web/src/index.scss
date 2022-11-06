@@ -9,6 +9,20 @@ $secondary: #f5cf87ff;
 $primary-alt: #00CD1D !important;
 $secondary-alt: #f5cf87ff;
 
+$display-font-sizes: (
+        1: 5rem,
+        2: 4.5rem,
+        3: 4rem,
+        4: 3.5rem,
+        5: 3rem,
+        6: 2rem
+);
+
+.display-6 {
+  font-family: "Noto Serif", sans-serif;
+  font-weight: bold
+}
+
 .btn-primary {
   color: white !important;
 }

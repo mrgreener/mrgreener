@@ -9,18 +9,24 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
 
-import Homepage from "./components/Homepage/Homepage";
-
 import NotFound from "./components/NotFound/NotFound";
-import {DefaultApi} from "./openapi";
+import {CustomerAPIApi, DefaultApi} from "./openapi";
 import {API_ENDPOINT, firebaseConfig} from "./react-app-env";
 
 import axios from "axios";
 import LoginPage from "./components/LoginPage/LoginPage";
-import OrganizationHub from "./components/OrganizationHub/OrganizationHub";
+import LandingPage from "./components/LandingPage/LandingPage";
+import EarnPage from "./components/EarnPage/EarnPage";
+import SpendPage from "./components/SpendPage/SpendPage";
+import RedeemPage from "./components/RedeemPage/RedeemPage";
+import RewardDetail from "./components/RewardDetail/RewardDetail";
+import PromotionDetail from "./components/PromotionDetail/PromotionDetail";
+import ProfilePage from "./components/Profile/Profile";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
+
+export const auth = getAuth();
 
 const myaxios = axios.create();
 myaxios.interceptors.request.use(
@@ -29,7 +35,20 @@ myaxios.interceptors.request.use(
       return config;
     }
     // auth
-    const token = (await getAuth().currentUser?.getIdToken(true)) ?? "" ?? "";
+    const token1 = (await auth.currentUser?.getIdToken(false));
+    let token = "";
+    if (token1 === undefined) {
+      console.warn("No token! Attempting again");
+      await new Promise( resolve => setTimeout(resolve, 1500) );
+      const token2 = (await auth.currentUser?.getIdToken(true));
+      if (token2 === undefined) {
+        console.error("Twice no token!");
+      } else {
+        token = token2;
+      }
+    } else {
+      token = token1
+    }
     config.headers.Authorization = "Bearer " + token;
     return config;
   },
@@ -38,7 +57,7 @@ myaxios.interceptors.request.use(
   }
 );
 
-export const Api = new DefaultApi(undefined, API_ENDPOINT, myaxios);
+export const Api = new CustomerAPIApi(undefined, API_ENDPOINT, myaxios);
 
 const router = createBrowserRouter([
   {
@@ -48,18 +67,38 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Homepage />,
+        element: <LandingPage />,
       },
       {
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/earn",
+        element: <EarnPage/>
+      },
+      {
+        path: "/spend",
+        element: <SpendPage/>
+      },
+      {
+        path: "/redeem",
+        element: <RedeemPage/>
+      },
+      {
+        path: "/reward/:id",
+        element: <RewardDetail/>
+      },
+      {
+        path: "/promotion/:id",
+        element: <PromotionDetail/>
+      },
+      {
+        path: "/profile/:id",
+        element: <ProfilePage/>
+      }
     ],
-  },
-  {
-    path: "/orgs",
-    element: <OrganizationHub />,
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(
