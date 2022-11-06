@@ -1,7 +1,7 @@
 import React from "react";
 import StyledFirebaseAuth from "../StyledFirebaseAuth/StyledFirebaseAuth";
 import {
-  browserSessionPersistence,
+  browserLocalPersistence,
   getAuth,
   GoogleAuthProvider,
 } from "firebase/auth";
@@ -10,7 +10,7 @@ import {auth} from "../../index";
 interface LoginPageProps {}
 
 function LoginPage() {
-  auth.setPersistence(browserSessionPersistence);
+  auth.setPersistence(browserLocalPersistence);
 
   // Configure FirebaseUI.
   const uiConfig = {
