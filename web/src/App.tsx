@@ -64,22 +64,22 @@ function App(this: any) {
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="/new"
+                  to="/earn"
                   className={({ isActive }) =>
                     "nav-link " + (isActive ? activeClassName : "")
                   }
                 >
-                  Maintenance page
+                  Earn
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="/search"
+                  to="/use"
                   className={({ isActive }) =>
                     "nav-link " + (isActive ? activeClassName : "")
                   }
                 >
-                  Search
+                  Use
                 </NavLink>
               </li>
             </ul>
