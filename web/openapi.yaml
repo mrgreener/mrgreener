@@ -79,7 +79,14 @@ paths:
     get:
       tags:
         - Customer API
-      description: Lists all active&verified rewards
+      description: Lists all active&verified rewards of an organization
+      parameters:
+        - in: query
+          name: org_id
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         200:
           description: Successfully listed
@@ -95,7 +102,7 @@ paths:
     post:
       tags:
         - Customer API
-      description: Attempts to buy a voucher
+      description: Attempts to buy a reward voucher
       parameters:
         - in: path
           name: reward_id
@@ -199,22 +206,18 @@ paths:
           example: skibidi
           schema:
             type: string
-          description: Code for voucher redemption
+          description: Code for promotion voucher redemption
       responses:
         200:
-          description: Redeemed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PromotionVoucher"
+          description: Promotion voucher Redeemed
         400:
-          description: Error occured
+          description: Bad request
       security:
         - BearerAuth: [ ]
   /organizations/all:
     get:
       tags:
-        - Consumer API
+        - Customer API
       description: Gets all verified organizations
       responses:
         200:
@@ -262,9 +265,6 @@ components:
         promotion_id:
           type: integer
           example: 21
-        price_string:
-          type: string
-          example: "$3"
         picture_url:
           type: string
           format: url
@@ -304,7 +304,6 @@ components:
           example: true
       required:
         - name
-        - price_string
         - description_long
         - description_short
         - reward_points
@@ -398,7 +397,6 @@ components:
           type: integer
           example: 43
       required:
-        - rewardPoints
         - promotion_id
     Organization:
       properties:

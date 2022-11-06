@@ -35,8 +35,7 @@ function PromotionItem({ promotion }: PromotionItemProps) {
             </small>
           </div>
           <p className="mb-1">
-            {" "}
-            {promotion.price_string} for {promotion.reward_points} points
+            +{promotion.reward_points} points
           </p>
           <small className="text-muted">{promotion.description_short}</small>
         </Col>

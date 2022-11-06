@@ -49,7 +49,6 @@ function PromotionDetail() {
             <b style={{ color: "#009E60" }}>
               +{promotion?.reward_points} points{" "}
             </b>{" "}
-            for a purchase of {promotion?.price_string}
           </p>
           <small className="text-muted">
             {promotion?.link_to_store !== undefined ? (

@@ -25,6 +25,8 @@ import PromotionDetail from "./components/PromotionDetail/PromotionDetail";
 // Initialize Firebase
 initializeApp(firebaseConfig);
 
+export const auth = getAuth();
+
 const myaxios = axios.create();
 myaxios.interceptors.request.use(
   async (config) => {
@@ -32,7 +34,20 @@ myaxios.interceptors.request.use(
       return config;
     }
     // auth
-    const token = (await getAuth().currentUser?.getIdToken(true)) ?? "" ?? "";
+    const token1 = (await auth.currentUser?.getIdToken(false));
+    let token = "";
+    if (token1 === undefined) {
+      console.warn("No token! Attempting again");
+      await new Promise( resolve => setTimeout(resolve, 1500) );
+      const token2 = (await auth.currentUser?.getIdToken(true));
+      if (token2 === undefined) {
+        console.error("Twice no token!");
+      } else {
+        token = token2;
+      }
+    } else {
+      token = token1
+    }
     config.headers.Authorization = "Bearer " + token;
     return config;
   },

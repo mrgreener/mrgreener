@@ -3,8 +3,9 @@ import logo from "./img/logo.svg";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 import "./App.css";
-import { Image, Placeholder } from "react-bootstrap";
+import {Button, Image, Placeholder} from "react-bootstrap";
 import { getAuth, User } from "firebase/auth";
+import {auth} from "./index";
 
 let activeClassName = "active";
 
@@ -13,7 +14,6 @@ function App(this: any) {
     document.title = "MrGreener";
   }, []);
 
-  const auth = getAuth();
   const [loaded, updateLoaded] = useState<boolean>(false);
   const [user, updateUser] = useState<User | undefined>();
   auth
