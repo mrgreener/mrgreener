@@ -135,7 +135,7 @@ function App(this: any) {
                         {user === undefined && (<></>)}
                         {user !== undefined &&
                             <NavLink
-                                to='/rewards/${user.uid ?? "null"}'
+                                to='/redeemed_rewards'
                                 className={({ isActive }) =>
                                     "nav-link " + (isActive ? activeClassName : "")
                                 }
