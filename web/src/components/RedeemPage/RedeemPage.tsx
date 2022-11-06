@@ -70,7 +70,7 @@ function RedeemPage() {
       <>
         <h2>Redeem Your Promotion Voucher</h2>
         <Form
-          onSubmit={handleSubmit((res) => {
+          onSubmit={handleSubmit((res: { code: any; }) => {
             navigate({
               pathname: "/redeem/",
               search: createSearchParams({
