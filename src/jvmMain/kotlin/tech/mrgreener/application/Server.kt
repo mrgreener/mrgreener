@@ -1,17 +1,17 @@
 package tech.mrgreener.application
 
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.engine.embeddedServer
+import io.ktor.server.engine.*
 import io.ktor.server.html.*
 import io.ktor.server.http.content.*
-import io.ktor.server.netty.Netty
+import io.ktor.server.netty.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import org.apache.log4j.BasicConfigurator
 import tech.mrgreener.application.controller.*
 import tech.mrgreener.application.model.initDbManager
-import java.util.UUID
+import java.util.*
 
 fun HTML.index() {
     head {
@@ -86,6 +86,19 @@ fun basicControllersTests() {
     )
 
     assert(getUserBalance(userId) == 100L)
+
+    editUser(
+        userId = userId,
+        bio = "abobus BIO"
+    )
+
+    editUser(
+        userId = userId,
+        avatarUrl = "abobus_avatar.jpg"
+    )
+
+    assert(getUserById(userId).avatarUrl == "abobus_avatar.jpg")
+    assert(getUserById(userId).bio == "abobus BIO")
 }
 
 fun initServer() {

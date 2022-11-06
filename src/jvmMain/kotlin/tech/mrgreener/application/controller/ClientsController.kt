@@ -101,3 +101,19 @@ fun getUserTotalSpending(userId: IdType): MoneyType {
 fun getUserBalance(userId: IdType): MoneyType {
     return getUserTotalIncome(userId) - getUserTotalSpending(userId)
 }
+
+fun editUser(
+    userId: IdType,
+    name: String? = null,
+    bio: String? = null,
+    avatarUrl: String? = null
+) {
+    val user = getUserById(userId)
+    name?.let { user.name = it }
+    bio?.let { user.bio = it }
+    avatarUrl?.let { user.avatarUrl = it }
+
+    sessionFactory.inTransaction {
+        it.merge(user)
+    }
+}

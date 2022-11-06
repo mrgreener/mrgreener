@@ -18,7 +18,7 @@ class Client(
     val username: String,
 
     @Column(nullable = false)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false)
     val isAdmin: Boolean = false,
@@ -28,10 +28,10 @@ class Client(
     val registeredOn: Timestamp,
 
     @Column(nullable = true)
-    val bio: String? = "Hello, I am new here!",
+    var bio: String? = "Hello, I am new here!",
 
     @Column(nullable = true)
-    val avatarUrl: String? = null,
+    var avatarUrl: String? = null,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
     val promotionVouchersActivations: List<PromotionVoucherActivation> = emptyList(),
