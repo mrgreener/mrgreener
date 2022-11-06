@@ -5,7 +5,7 @@ import {Link, NavLink, Outlet} from "react-router-dom";
 import "./App.css";
 import {Image, Placeholder} from "react-bootstrap";
 import {User} from "firebase/auth";
-import {auth} from "./index";
+import {Api, auth} from "./index";
 import {Profile} from "./openapi";
 
 let activeClassName = "active";
@@ -19,13 +19,24 @@ function App(this: any) {
   const [user, updateUser] = useState<User | undefined>();
   const [profile, updateProfile] = useState<Profile | undefined>();
 
+  setInterval(() => {
+    Api.getMeGet().then(res => {
+      updateProfile(res.data);
+    });
+  }, 2500)
+
+  // let profileLoaded = false;
+
   auth
     .onAuthStateChanged((user_) => {
       updateUser(() => {
         updateLoaded(true);
         if (user_ == null) return undefined;
         else {
-          //Api.getMeGet().then(res => {updateProfile(res.data);});
+          // if (!profileLoaded) {
+          //
+          //   profileLoaded = true;
+          // }
           return user_;
         }
       });

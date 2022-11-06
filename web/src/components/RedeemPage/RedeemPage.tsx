@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { createSearchParams, useSearchParams } from "react-router-dom";
-import { Api } from "../../index";
-import { useForm } from "react-hook-form";
-import {
-  Button,
-  Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
-} from "react-bootstrap";
-import { useNavigate } from "react-router";
+import React, {useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
+import {Api} from "../../index";
+import {useForm} from "react-hook-form";
+import {Button, Form, FormControl, FormGroup, FormLabel,} from "react-bootstrap";
+import {useNavigate} from "react-router";
 
 interface RedeemPageProps {}
 
@@ -70,14 +64,14 @@ function RedeemPage() {
       <>
         <h2>Redeem Your Promotion Voucher</h2>
         <Form
-          onSubmit={handleSubmit((res: { code: any; }) => {
-            navigate({
-              pathname: "/redeem/",
-              search: createSearchParams({
-                code: res.code,
-              }).toString(),
-            });
-          })}
+          // onSubmit={handleSubmit((res: { code: any; }) => {
+          //   navigate({
+          //     pathname: "/redeem/",
+          //     search: createSearchParams({
+          //       code: res.code,
+          //     }).toString(),
+          //   });
+          // })}
         >
           <FormGroup>
             <FormLabel>Voucher Code</FormLabel>

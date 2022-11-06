@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Promotion } from "../../openapi";
-import { useParams } from "react-router";
-import { Api } from "../../index";
-import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Promotion} from "../../openapi";
+import {useParams} from "react-router";
+import {Api} from "../../index";
+import {Button, Col, Row} from "react-bootstrap";
 
 interface PromotionDetailProps {}
 
@@ -15,12 +14,8 @@ function PromotionDetail() {
 
   // load all elements
   useEffect(() => {
-    Api.promotionsAllGet(566).then((res) => {
-      // TODO: get single
-      const found_group = res.data.find((val) => {
-        return val.promotion_id === promotion_id;
-      });
-      updatePromotion(found_group);
+    Api.promotionsGetGet(promotion_id).then((res) => {
+      updatePromotion(res.data);
     });
   }, []);
   return (
@@ -52,7 +47,7 @@ function PromotionDetail() {
           </p>
           <small className="text-muted">
             {promotion?.link_to_store !== undefined ? (
-              <a href={promotion?.link_to_store}>
+              <a href={promotion?.link_to_store} hidden={true}>
                 <Button variant={"primary"}>Use the Deal</Button>
               </a>
             ) : (
