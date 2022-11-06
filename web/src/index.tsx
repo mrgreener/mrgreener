@@ -113,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/organization/:id/rewards",
         element: <OrganisationRewardsPage/>
+      },
+      {
+        path: "/buy_reward/:id",
+        element: <BuyRewardPage/>
       }
     ],
   }
