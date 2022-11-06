@@ -11,10 +11,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
 import tech.mrgreener.application.MrGreenerException
 import tech.mrgreener.application.controller.*
-import tech.mrgreener.application.serversidemodel.Profile
-import tech.mrgreener.application.serversidemodel.Promotion
-import tech.mrgreener.application.serversidemodel.PromotionVoucher
-import tech.mrgreener.application.serversidemodel.Reward
+import tech.mrgreener.application.serversidemodel.*
 import tech.mrgreener.application.utils.uid
 
 fun Application.configureRouting() {
@@ -153,7 +150,7 @@ fun Application.configureRouting() {
             get("/v1/api/organizations/all") {
                 try {
                     call.respond(getOrganizations().map {
-                        it // TODO
+                        Organization(it)
                     })
                 } catch (e: MrGreenerException) {
                     call.respondText(
