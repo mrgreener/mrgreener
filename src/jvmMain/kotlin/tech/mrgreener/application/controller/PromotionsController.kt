@@ -110,6 +110,7 @@ fun redeemPromotionVoucher(
 
 fun getPromotionsForOrganization(
     organization: Organization,
+    verified: Boolean = true,
     pageSize: Int? = null,
     pageId: Int = 0,
 ): List<Promotion> {
@@ -117,9 +118,9 @@ fun getPromotionsForOrganization(
 
     sessionFactory.inTransaction {
         val query = it.createQuery(
-            "select p from Promotion p where p.organization.id=:organizationId",
+            "select p from Promotion p where p.organization.id=:organizationId and p.verified=:verified and p.isActive=true",
             Promotion::class.java
-        ).setParameter("organizationId", organization.id!!)
+        ).setParameter("organizationId", organization.id!!).setParameter("verified", verified)
 
         if (pageSize != null) {
             val firstResult = pageId * pageSize;

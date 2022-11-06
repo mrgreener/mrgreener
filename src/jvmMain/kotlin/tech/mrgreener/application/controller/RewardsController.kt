@@ -116,15 +116,16 @@ fun buyReward(
 
 fun getRewardsForOrganization(
     organization: Organization,
+    verified: Boolean = true,
     pageSize: Int? = null,
     pageId: Int = 0,
 ): List<Reward> {
     var result = emptyList<Reward>()
     sessionFactory.inTransaction {
         val query = it.createQuery(
-            "select r from Reward r where r.organization.id=:organizationId",
+            "select r from Reward r where r.organization.id=:organizationId and r.verified=:verified and r.isActive=true",
             Reward::class.java
-        ).setParameter("organizationId", organization.id!!)
+        ).setParameter("organizationId", organization.id!!).setParameter("verified", verified)
 
         if (pageSize != null) {
             val firstResult = pageId * pageSize;
