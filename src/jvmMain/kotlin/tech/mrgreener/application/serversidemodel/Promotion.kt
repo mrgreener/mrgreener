@@ -34,17 +34,17 @@ import tech.mrgreener.application.model.entities.Promotion
 data class Promotion(
     val name: String,
 //    val priceString: String,
-    val descriptionShort: String,
-    val descriptionLong: String,
-    val rewardPoints: Long,
-    val companyName: String,
-    val linkToStore: String,
+    val description_short: String,
+    val description_long: String,
+    val reward_points: Long,
+    val company_name: String,
+    val link_to_store: String,
     val verified: Boolean,
-    val isActive: Boolean,
-    val promotionId: Long? = null,
-    val pictureUrl: String? = null,
-    val companyAvatarUrl: String? = null,
-    val whereToGet: String? = null
+    val is_active: Boolean,
+    val promotion_id: Long? = null,
+    val picture_url: String? = null,
+    val company_avatar_url: String? = null,
+    val where_to_get: String? = null
 ) {
     constructor(promotionObj: Promotion, organizationObj: Organization) : this(
         promotionObj.name,
