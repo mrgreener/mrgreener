@@ -6,7 +6,7 @@ interface LandingPageProps {}
 const LandingPage: FC<LandingPageProps> = () => (
   <div className="text-center">
       <p className="display-6">
-          GoGreener aims to encourage people to buy more environmentally
+          MrGreener aims to encourage people to buy more environmentally
           friendly goods and commit actions to improve the ecological situation.
       </p>
 
@@ -15,7 +15,7 @@ const LandingPage: FC<LandingPageProps> = () => (
           benefits to people who care about the environment. However,
           there are a lot of unknown organizations which are trying to save our planet.
           Our team would like to help people find such organizations and contribute to
-          sustainability. In addition, GoGreener motivates people via virtual
+          sustainability. In addition, MrGreener motivates people via virtual
           currency -- "Green Points" plus a profile page that people can share on social media.
       </p>
 
