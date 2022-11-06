@@ -24,6 +24,7 @@ package tech.mrgreener.application.serversidemodel
  * @param siteUrl
  */
 data class Organization(
+    val organization_id: Long,
     val name: String,
     val username: String,
     val description: String,
@@ -34,6 +35,7 @@ data class Organization(
     val site_url: String? = null
 ) {
     constructor (organizationObj: tech.mrgreener.application.model.entities.Organization) : this(
+        organizationObj.id!!,
         organizationObj.name,
         organizationObj.username,
         organizationObj.description,

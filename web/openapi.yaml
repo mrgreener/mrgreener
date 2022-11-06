@@ -451,35 +451,40 @@ components:
         - promotion_id
     Organization:
       properties:
+        organization_id:
+          description: Internal organization identifier
+          type: integer
+          example: 41
         name:
           type: string
           example: "Avocado Shop"
         username:
           type: string
           example: "avocadoshop"
-        registeredOn:
+        registered_on:
           type: string
           format: datetime
           example: "2022-11-06T00:49"
         description:
           type: string
           example: Best Avocado Shop in the town
-        avatarUrl:
+        avatar_url:
           type: string
           format: url
           example: "https://imgmedia.lbb.in/media/2019/11/5dcae73a53703c2f98a1da63_1573578554772.jpg"
         location:
           type: string
           example: "Campus Ring 1, Bremen, Germany"
-        siteUrl:
+        site_url:
           type: string
           format: url
           example: "https://www.avocadostore.de"
-        contactEmail:
+        contact_email:
           type: string
           format: email
           example: "inbox@avocadostore.de"
       required:
+        - organization_id
         - name
         - username
         - description

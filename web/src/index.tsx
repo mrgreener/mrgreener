@@ -23,6 +23,8 @@ import RewardDetail from "./components/RewardDetail/RewardDetail";
 import PromotionDetail from "./components/PromotionDetail/PromotionDetail";
 import ProfilePage from "./components/Profile/Profile";
 import OrganisationPromotionsPage from "./components/OrganizationPromotions/OrganisationPromotions";
+import OrganisationRewardsPage from "./components/OrganizationRewards/OrganizationRewards";
+import UsePage from "./components/UsePage/UsePage";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -79,6 +81,10 @@ const router = createBrowserRouter([
         element: <EarnPage/>
       },
       {
+        path: "/use",
+        element: <UsePage/>
+      },
+      {
         path: "/spend",
         element: <SpendPage/>
       },
@@ -101,6 +107,10 @@ const router = createBrowserRouter([
       {
         path: "/organization/:id/promotions",
         element: <OrganisationPromotionsPage/>
+      },
+      {
+        path: "/organization/:id/rewards",
+        element: <OrganisationRewardsPage/>
       }
     ],
   }

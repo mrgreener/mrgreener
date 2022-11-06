@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Api } from "../../index";
-import PromotionItem from "../PromotionItem/PromotionItem";
-import { ListGroup } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Api} from "../../index";
+import {ListGroup} from "react-bootstrap";
+import OrganizationItem from "../OrganizationItem/OrganizationItem";
 
 interface EarnPageProps {}
 
 function EarnPage() {
-  const [promotions, updatePromotions] = useState([] as JSX.Element[]);
+  const [organisations, updateOrganizations] = useState([] as JSX.Element[]);
 
   // load all groups
   useEffect(() => {
-    Api.promotionsAllGet(1).then((res) => {
-      const objs = res.data.map((promo) => PromotionItem({ promotion: promo }));
-      updatePromotions(objs);
+    Api.organizationsAllGet().then((res) => {
+      const objs = res.data.map((org) => OrganizationItem({ organization: org,
+        isRewards: false}));
+      updateOrganizations(objs);
     });
   }, []);
 
-  return <ListGroup>{promotions}</ListGroup>;
+  return <ListGroup>{organisations}</ListGroup>;
 }
 
 export default EarnPage;

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router";
-import { Profile, Reward } from "../../openapi";
-import { Api } from "../../index";
-import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {Profile, Reward} from "../../openapi";
+import {Api} from "../../index";
+import {Button, Col, Row} from "react-bootstrap";
 
 interface RewardDetailProps {}
 
@@ -15,12 +14,8 @@ function RewardDetail() {
 
   // load all elements
   useEffect(() => {
-    Api.rewardsAllGet(1).then((res) => {
-      // TODO: get single
-      const found_group = res.data.find((val) => {
-        return val.reward_id === reward_id;
-      });
-      updateReward(found_group);
+    Api.rewardsGetGet(reward_id).then((res) => {
+      updateReward(res.data);
     });
   }, []);
 
