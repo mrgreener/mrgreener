@@ -1,110 +1,15 @@
 package tech.mrgreener.application
 
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
-import io.ktor.server.html.*
-import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
-import io.ktor.server.routing.*
-import kotlinx.html.*
 import org.apache.log4j.BasicConfigurator
-import tech.mrgreener.application.controller.*
 import tech.mrgreener.application.model.initDbManager
 import tech.mrgreener.application.plugins.configureHTTP
 import tech.mrgreener.application.plugins.configureRouting
 import tech.mrgreener.application.plugins.configureSecurity
 import tech.mrgreener.application.plugins.configureSerialization
-import java.util.UUID
-import java.util.*
-
-fun HTML.index() {
-    head {
-        title("Hello from Ktor!")
-    }
-    body {
-        div {
-            +"Hello from Ktor"
-        }
-        div {
-            id = "root"
-        }
-        script(src = "/static/mrgreener.js") {}
-    }
-}
-
-fun rndStr(): String {
-    return UUID.randomUUID().toString()
-}
-
-fun basicControllersTests() {
-    val userId = addNewUser(
-        username = rndStr(),
-        authId = rndStr(),
-        name = rndStr()
-    )
-
-    val orgId = addOrganization(
-        name = rndStr(),
-        username = rndStr(),
-        authId = rndStr(),
-        description = rndStr(),
-        contactEmail = rndStr()
-    )
-
-    val promId = addPromotion(
-        organization = getOrganizationById(orgId),
-        name = rndStr(),
-        description = rndStr(),
-        rewardPoints = 666
-    )
-
-    val vouPromId = issuePromotionVoucher(
-        promotion = getPromotionById(promId),
-        rewardPoints = getPromotionById(promId).rewardPoints
-    )
-
-    redeemPromotionVoucher(
-        user = getUserById(userId),
-        code = getPromotionVoucherById(vouPromId).code
-    )
-
-    val rewOrgId = addOrganization(
-        name = rndStr(),
-        username = rndStr(),
-        authId = rndStr(),
-        description = rndStr(),
-        contactEmail = rndStr()
-    )
-
-    val rewId = addReward(
-        organization = getOrganizationById(rewOrgId),
-        name = rndStr(),
-        description = rndStr(),
-        content = rndStr(),
-        price = 566
-    )
-
-    buyReward(
-        user = getUserById(userId),
-        reward = getRewardById(rewId)
-    )
-
-    assert(getUserBalance(userId) == 100L)
-
-    editUser(
-        userId = userId,
-        bio = "abobus BIO"
-    )
-
-    editUser(
-        userId = userId,
-        avatarUrl = "abobus_avatar.jpg"
-    )
-
-    assert(getUserById(userId).avatarUrl == "abobus_avatar.jpg")
-    assert(getUserById(userId).bio == "abobus BIO")
-}
+import tech.mrgreener.application.tests.basicControllersTests
 
 fun initServer() {
     BasicConfigurator.configure()
@@ -119,7 +24,6 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
 }
-
 
 fun main() {
     initServer()
