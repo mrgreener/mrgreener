@@ -5,7 +5,8 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import "./App.css";
 import {Button, Image, Placeholder} from "react-bootstrap";
 import { getAuth, User } from "firebase/auth";
-import {auth} from "./index";
+import {Api, auth} from "./index";
+import {Profile} from "./openapi";
 
 let activeClassName = "active";
 
@@ -16,12 +17,17 @@ function App(this: any) {
 
   const [loaded, updateLoaded] = useState<boolean>(false);
   const [user, updateUser] = useState<User | undefined>();
+  const [profile, updateProfile] = useState<Profile | undefined>();
+
   auth
     .onAuthStateChanged((user_) => {
       updateUser(() => {
         updateLoaded(true);
         if (user_ == null) return undefined;
-        else return user_;
+        else {
+          Api.getMeGet().then(res => {updateProfile(res.data);});
+          return user_;
+        }
       });
     })
     .bind(this);
@@ -82,6 +88,56 @@ function App(this: any) {
                   Use
                 </NavLink>
               </li>
+              <li>
+                <Placeholder
+                    as={"span"}
+                    className="navbar-text actions"
+                    animation="glow"
+                >
+                  {loaded ? (
+                      <>
+                        {user === undefined && (<></>)}
+                        {user !== undefined &&
+                            <NavLink
+                                to='/profile/${user.uid ?? "null"}'
+                                className={({ isActive }) =>
+                                    "nav-link " + (isActive ? activeClassName : "")
+                                }
+                            >
+                              Profile
+                            </NavLink>
+                        }
+                      </>
+                  ) : (
+                      <Placeholder xs={4} />
+                  )}
+                </Placeholder>
+              </li>
+              <li>
+                <Placeholder
+                    as={"span"}
+                    className="navbar-text actions"
+                    animation="glow"
+                >
+                  {loaded ? (
+                      <>
+                        {user === undefined && (<></>)}
+                        {user !== undefined &&
+                            <NavLink
+                                to='/rewards/${user.uid ?? "null"}'
+                                className={({ isActive }) =>
+                                    "nav-link " + (isActive ? activeClassName : "")
+                                }
+                            >
+                              Rewards
+                            </NavLink>
+                        }
+                      </>
+                  ) : (
+                      <Placeholder xs={4} />
+                  )}
+                </Placeholder>
+              </li>
             </ul>
             <Placeholder
               as={"span"}
@@ -100,7 +156,10 @@ function App(this: any) {
                       Login
                     </Link>
                   )}
-                  {user !== undefined && <p>Hi {user.displayName ?? "null"}</p>}
+                  {
+                    user !== undefined && <p>Hi {user.displayName ?? "null"}, you have &nbsp;
+                    <b style={{ color: "#119621" }}>{profile?.points} points.</b></p>
+                  }
                 </>
               ) : (
                 <Placeholder xs={4} />
