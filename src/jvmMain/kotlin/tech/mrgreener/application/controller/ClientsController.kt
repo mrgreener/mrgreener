@@ -59,6 +59,7 @@ fun getUserByAuthId(authId: String): Client {
     return result ?: throw UserAuthIdNotFoundException(authId)
 }
 
+
 fun getOrCreateByAuthId(authId: String): Client {
     return try {
         getUserByAuthId(authId)
@@ -67,6 +68,7 @@ fun getOrCreateByAuthId(authId: String): Client {
         getUserByAuthId(authId)
     }
 }
+
 
 fun assertExistsAndAdmin(userId: Long) {
     sessionFactory.inTransaction {
