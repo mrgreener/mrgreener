@@ -15,7 +15,7 @@ fun initServer() {
     BasicConfigurator.configure()
     initDbManager()
 
-    basicControllersTests()
+    //basicControllersTests()
 }
 
 fun Application.module() {
