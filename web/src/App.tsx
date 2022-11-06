@@ -125,6 +125,31 @@ function App(this: any) {
               </li>
               <li>
                 <Placeholder
+                    as={"span"}
+                    className="navbar-text actions"
+                    animation="glow"
+                >
+                  {loaded ? (
+                      <>
+                        {user === undefined && <></>}
+                        {user !== undefined && (
+                            <NavLink
+                                to="/redeem"
+                                className={({ isActive }) =>
+                                    "nav-link " + (isActive ? activeClassName : "")
+                                }
+                            >
+                              Redeem
+                            </NavLink>
+                        )}
+                      </>
+                  ) : (
+                      <Placeholder xs={4} />
+                  )}
+                </Placeholder>
+              </li>
+              <li>
+                <Placeholder
                   as={"span"}
                   className="navbar-text actions"
                   animation="glow"
