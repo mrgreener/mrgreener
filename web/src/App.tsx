@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./img/logo.svg";
-import {Link, NavLink, Outlet} from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 import "./App.css";
-import {Image, Placeholder} from "react-bootstrap";
-import {User} from "firebase/auth";
-import {Api, auth} from "./index";
-import {Profile} from "./openapi";
+import { Image, Placeholder } from "react-bootstrap";
+import { User } from "firebase/auth";
+import { Api, auth } from "./index";
+import { Profile } from "./openapi";
 
 let activeClassName = "active";
 
@@ -19,13 +19,12 @@ function App(this: any) {
   const [user, updateUser] = useState<User | undefined>();
   const [profile, updateProfile] = useState<Profile | undefined>();
 
-  setInterval(() => {
-    Api.getMeGet().then(res => {
+  useEffect(() => {
+    Api.getMeGet().then((res) => {
+      console.log("refresh getMe");
       updateProfile(res.data);
     });
-  }, 2500)
-
-  // let profileLoaded = false;
+  }, [user]);
 
   auth
     .onAuthStateChanged((user_) => {
@@ -101,51 +100,51 @@ function App(this: any) {
               </li>
               <li>
                 <Placeholder
-                    as={"span"}
-                    className="navbar-text actions"
-                    animation="glow"
+                  as={"span"}
+                  className="navbar-text actions"
+                  animation="glow"
                 >
                   {loaded ? (
-                      <>
-                        {user === undefined && (<></>)}
-                        {user !== undefined &&
-                            <NavLink
-                                to='/profile/${user.uid ?? "null"}'
-                                className={({ isActive }) =>
-                                    "nav-link " + (isActive ? activeClassName : "")
-                                }
-                            >
-                              Profile
-                            </NavLink>
-                        }
-                      </>
+                    <>
+                      {user === undefined && <></>}
+                      {user !== undefined && (
+                        <NavLink
+                          to='/profile/${user.uid ?? "null"}'
+                          className={({ isActive }) =>
+                            "nav-link " + (isActive ? activeClassName : "")
+                          }
+                        >
+                          Profile
+                        </NavLink>
+                      )}
+                    </>
                   ) : (
-                      <Placeholder xs={4} />
+                    <Placeholder xs={4} />
                   )}
                 </Placeholder>
               </li>
               <li>
                 <Placeholder
-                    as={"span"}
-                    className="navbar-text actions"
-                    animation="glow"
+                  as={"span"}
+                  className="navbar-text actions"
+                  animation="glow"
                 >
                   {loaded ? (
-                      <>
-                        {user === undefined && (<></>)}
-                        {user !== undefined &&
-                            <NavLink
-                                to='/redeemed_rewards'
-                                className={({ isActive }) =>
-                                    "nav-link " + (isActive ? activeClassName : "")
-                                }
-                            >
-                              Rewards
-                            </NavLink>
-                        }
-                      </>
+                    <>
+                      {user === undefined && <></>}
+                      {user !== undefined && (
+                        <NavLink
+                          to="/redeemed_rewards"
+                          className={({ isActive }) =>
+                            "nav-link " + (isActive ? activeClassName : "")
+                          }
+                        >
+                          Rewards
+                        </NavLink>
+                      )}
+                    </>
                   ) : (
-                      <Placeholder xs={4} />
+                    <Placeholder xs={4} />
                   )}
                 </Placeholder>
               </li>
@@ -167,10 +166,14 @@ function App(this: any) {
                       Login
                     </Link>
                   )}
-                  {
-                    user !== undefined && <p>Hi {user.displayName ?? "null"}, you have &nbsp;
-                    <b style={{ color: "#119621" }}>{profile?.points} points.</b></p>
-                  }
+                  {user !== undefined && (
+                    <p>
+                      Hi {user.displayName ?? "null"}, you have &nbsp;
+                      <b style={{ color: "#119621" }}>
+                        {profile?.points} points.
+                      </b>
+                    </p>
+                  )}
                 </>
               ) : (
                 <Placeholder xs={4} />
