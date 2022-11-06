@@ -314,6 +314,8 @@ export interface Reward {
  * @interface RewardVoucher
  */
 export interface RewardVoucher {
+
+    'id': number;
     /**
      * 
      * @type {string}
