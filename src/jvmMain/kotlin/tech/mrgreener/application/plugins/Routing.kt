@@ -22,7 +22,7 @@ fun Application.configureRouting() {
         }
 
         // CUSTOMER API
-        get("/v1/api/profiles/{username}") {
+        get("/v1/api/profiles/{username}/") {
             val username = call.parameters["username"] ?: return@get call.respondText(
                 "Missing username",
                 status = HttpStatusCode.BadRequest

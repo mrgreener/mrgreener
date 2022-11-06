@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import logo from "./img/logo.svg";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import {Link, NavLink, Outlet} from "react-router-dom";
 
 import "./App.css";
-import { Image, Placeholder } from "react-bootstrap";
-import { User } from "firebase/auth";
-import { Api, auth } from "./index";
-import { Profile } from "./openapi";
+import {Image, Placeholder} from "react-bootstrap";
+import {User} from "firebase/auth";
+import {Api, auth} from "./index";
+import {Profile} from "./openapi";
 
 let activeClassName = "active";
 
@@ -109,9 +109,9 @@ function App(this: any) {
                       {user === undefined && <></>}
                       {user !== undefined && (
                         <NavLink
-                          to='/profile/${user.uid ?? "null"}'
-                          className={({ isActive }) =>
-                            "nav-link " + (isActive ? activeClassName : "")
+                            to={'/profile/' + (profile?.username ?? "null")}
+                            className={({ isActive }) =>
+                              "nav-link " + (isActive ? activeClassName : "")
                           }
                         >
                           Profile
