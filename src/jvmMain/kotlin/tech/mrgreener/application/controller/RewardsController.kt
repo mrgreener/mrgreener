@@ -99,7 +99,7 @@ fun redeemRewardVoucher(
 fun buyReward(
     user: Client,
     reward: Reward
-) {
+): RewardVoucher {
     val balance = getUserBalance(userId = user.id!!)
 
     if (balance < reward.price) {
@@ -111,6 +111,8 @@ fun buyReward(
         user = user,
         voucher = getRewardVoucherById(voucherId)
     )
+
+    return getRewardVoucherById(voucherId)
 }
 
 
@@ -147,7 +149,7 @@ fun getRedeemedRewardVouchersForUser(
 
     sessionFactory.inTransaction {
         val query = it.createQuery(
-            "select pva.voucher from PromotionVoucherActivation pva where pva.client.id=:userId",
+            "select rva.voucher from RewardVoucherActivation rva where rva.client.id=:userId",
             RewardVoucher::class.java
         ).setParameter("userId", user.id!!)
 

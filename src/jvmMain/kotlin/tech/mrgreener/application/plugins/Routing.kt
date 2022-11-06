@@ -111,8 +111,7 @@ fun Application.configureRouting() {
                 try {
                     val authId = call.uid()
                     val user = getUserByAuthId(authId)
-                    buyReward(user, getRewardById(rewardId))
-                    call.respondText("OK")
+                    call.respond(RewardVoucher(buyReward(user, getRewardById(rewardId))))
                 } catch (e: MrGreenerException) {
                     call.respondText(
                         e.error_message,

@@ -22,7 +22,7 @@ import tech.mrgreener.application.model.entities.RewardVoucher
 data class RewardVoucher(
     val id: Long,
     val content: String,
-    val issued_on: String
+    val issuedOn: String
 ) {
     constructor(rewardVoucherObj: RewardVoucher) : this(rewardVoucherObj.id!!, rewardVoucherObj.content, rewardVoucherObj.issuedOn.toString())
 }
