@@ -10,6 +10,9 @@ import java.util.*
 class OrganizationNotFoundException(organizationId: IdType) :
     NotFoundException("Organization $organizationId not found")
 
+class OrganizationAuthIdNotFoundException(authId: String) :
+    NotFoundException("Organization with authId $authId not found")
+
 fun addOrganization(
     name: String,
     username: String,
@@ -49,6 +52,14 @@ fun getOrganizationById(organizationId: IdType): Organization {
     return result ?: throw OrganizationNotFoundException(organizationId)
 }
 
+fun getOrganizationByAuthId(authId: String): Organization {
+    var result: Organization? = null
+    sessionFactory.inTransaction {
+        result = it.createQuery("select org from Organization org where org.authId=:authId", Organization::class.java)
+            .setParameter("authId", authId).singleResultOrNull
+    }
+    return result ?: throw OrganizationAuthIdNotFoundException(authId)
+}
 
 fun getOrganizations(
     verified: Boolean = true,

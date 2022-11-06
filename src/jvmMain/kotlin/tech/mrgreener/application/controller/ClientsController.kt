@@ -11,6 +11,7 @@ import java.util.*
 
 class UserNotFoundException(userId: IdType) : NotFoundException("User $userId not found")
 class UsernameNotFoundException(username: String) : NotFoundException("Username $username not found")
+class UserAuthIdNotFoundException(authId: String) : NotFoundException("User with authId $authId not found")
 class NotAnAdminException(userId: IdType) : PermissionDeniedException("User $userId is not an admin")
 
 fun addNewUser(
@@ -47,6 +48,15 @@ fun getUserByUsername(username: String): Client {
             .setParameter("username", username).singleResultOrNull
     }
     return result ?: throw UsernameNotFoundException(username)
+}
+
+fun getUserByAuthId(authId: String): Client {
+    var result: Client? = null
+    sessionFactory.inTransaction {
+        result = it.createQuery("select u from Client u where u.authId=:authId", Client::class.java)
+            .setParameter("authId", authId).singleResultOrNull
+    }
+    return result ?: throw UserAuthIdNotFoundException(authId)
 }
 
 fun assertExistsAndAdmin(userId: Long) {
