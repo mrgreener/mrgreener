@@ -84,3 +84,23 @@ fun getOrganizations(
 
     return result
 }
+
+fun editOrganization(
+    organizationId: IdType,
+    name: String? = null,
+    avatarUrl: String? = null,
+    location: String? = null,
+    siteUrl: String? = null,
+    contactEmail: String? = null
+) {
+    val organization = getOrganizationById(organizationId)
+    name?.let { organization.name = it }
+    avatarUrl?.let { organization.avatarUrl = it }
+    location?.let { organization.location = it }
+    siteUrl?.let { organization.siteUrl = it }
+    contactEmail?.let { organization.contactEmail = it }
+
+    sessionFactory.inTransaction {
+        it.merge(organization)
+    }
+}

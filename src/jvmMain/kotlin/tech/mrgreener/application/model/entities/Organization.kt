@@ -18,7 +18,7 @@ class Organization(
     val username: String,
 
     @Column(nullable = false)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false)
     val apiKey: String,
@@ -30,16 +30,16 @@ class Organization(
     val description: String,
 
     @Column(name = "avatar_url", nullable = true)
-    val avatarUrl: String? = null,
+    var avatarUrl: String? = null,
 
     @Column(nullable = true)
-    val location: String? = null,
+    var location: String? = null,
 
     @Column(name = "site_url", nullable = true)
-    val siteUrl: String? = null,
+    var siteUrl: String? = null,
 
     @Column(name = "contact_email", nullable = false)
-    val contactEmail: String,
+    var contactEmail: String,
 
     @Column(name = "registered_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
